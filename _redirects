@@ -1,0 +1,2 @@
+# Netlify: SLF-Messwerte (IMIS) ohne CORS-Sperre über die eigene Herkunft (T288)
+/imis-api/*  https://measurement-api.slf.ch/public/api/imis/:splat  200

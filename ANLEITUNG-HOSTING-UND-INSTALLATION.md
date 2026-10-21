@@ -472,3 +472,14 @@ Seit T332 ist viel dazugekommen; die wichtigsten Punkte für das Telefon und die
 
 Service-Worker-Cache `kocoa-v186-T373-2026-10-21`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T374 (2026-10-21) – Telefon: Kartenzug, Offline-Karten, Foto
+
+- **Werkzeugrad beim Schieben – Ursache behoben.** Landete der Finger auf einer eingezeichneten Linie oder Fläche, übernahm bisher die Tablet-Brücke die Geste (Objekt verschieben statt Karte schieben) und startete nebenbei den Maus-Langdruck des Rechners – daher das Rad mitten im Kartenzug und der Hinweis «Ebene … automatisch fixiert». Am Telefon schiebt der Finger jetzt immer die Karte, auch wenn er auf einem Objekt beginnt; ein Tipp öffnet wie gehabt das Fenster des Objekts.
+- **Offline-Karten:** Ein Tipp auf ein LK25-Blatt löste zwei Klicks aus, das Blatt wurde hin- und zurückgeschaltet (nie grün). Jetzt schaltet ein Tipp genau einmal.
+- **Feldnotiz mit Foto:** Im Auswahlblatt der Feldnotiz gibt es «Foto» mit **Kamera** oder **Album**. Das Bild wird verkleinert (≤1280 px, JPEG, meist 100–250 kB), am Standort oder per Tipp abgelegt und hängt am Punkt «Foto · DTG · Rufzeichen». Bei einer bestehenden Feldnotiz: Fenster öffnen → «Foto hinzufügen / ersetzen / entfernen». Das Foto wird mit dem Projekt gespeichert, mit «An Tisch senden» geteilt und in einer Sitzung an alle Teilnehmer übertragen.
+
+**Prüfen, ob das Telefon den neuen Stand hat:** Mehr → Diagnose; die Zeile *Build* muss `T374-2026-10-21` zeigen. Steht dort «Service Worker: nicht unterstützt», läuft die native App (TestFlight/APK) oder die Seite wurde als Datei geöffnet – dann hilft kein PWA-Update, sondern der neue Android-/iOS-Bau bzw. das Neuladen der gehosteten Adresse.
+
+Service-Worker-Cache `kocoa-v187-T374-2026-10-21`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Munggi Feldserver</title>
+<style>
+  body{ margin:0; font:16px/1.5 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; background:#141a12; color:#e6ecd9; }
+  main{ max-width:680px; margin:0 auto; padding:20px 16px 48px; }
+  h1{ font-size:22px; margin:8px 0 4px; } h2{ font-size:17px; margin:26px 0 8px; color:#cfe3a8; }
+  .box{ background:#1e2619; border:1px solid #3c4a2f; border-radius:12px; padding:12px 14px; margin:12px 0; }
+  .btn{ display:block; text-align:center; background:#5c8a2e; color:#fff; text-decoration:none; font-weight:700; padding:14px 16px; border-radius:10px; margin:10px 0; font-size:17px; }
+  .btn.sec{ background:#2f3f26; color:#e6ecd9; border:1px solid #5c8a2e; }
+  ol{ padding-left:22px; } li{ margin:6px 0; }
+  code{ background:#0f140d; padding:2px 6px; border-radius:5px; font-size:15px; }
+  .muted{ color:#9fae8a; font-size:14px; }
+  .warn{ border-color:#b58a2a; background:#2a2416; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🏔 Munggi Feldserver</h1>
+  <p class="muted">Sitzungs-Server für die Munggi-App im lokalen Netz · Adresse <b>{{IP}}</b> · Sitzungsport <b>{{PORT}}</b></p>
+
+  <div class="box">
+    <b>Warum dieser Schritt?</b> Handys verbinden sich verschlüsselt (wss://) mit dem Feldserver.
+    Damit iPhone und Android dem Server vertrauen, muss sein Zertifikat einmalig auf dem Gerät
+    installiert werden. Das ist nur beim ersten Mal nötig – solange der Feldserver dieselbe
+    Adresse behält (Hotspot: immer 192.168.137.1).
+  </div>
+
+  <a class="btn" href="/munggi-feldserver.cer">1 · Zertifikat laden</a>
+
+  <h2>iPhone / iPad</h2>
+  <ol>
+    <li><b>In Safari</b> öffnen (nicht Chrome/Firefox). Safari fragt «Diese Website versucht, ein Konfigurationsprofil zu laden» → <b>Erlauben</b>.
+      Wird stattdessen eine Datei heruntergeladen: App «Dateien» → Downloads → <code>munggi-feldserver.cer</code> antippen – das löst dieselbe Abfrage aus.</li>
+    <li>Einstellungen → <b>Profil geladen</b> (oben) bzw. Allgemein → VPN &amp; Geräteverwaltung → «Munggi Feldserver» → <b>Installieren</b>.</li>
+    <li>Einstellungen → Allgemein → Info → ganz unten <b>Zertifikatsvertrauenseinstellungen</b> → «Munggi Feldserver» <b>einschalten</b>.</li>
+  </ol>
+
+  <h2>Android</h2>
+  <ol>
+    <li>Chrome lädt die Datei <code>munggi-feldserver.cer</code> in die Downloads (Hinweis «Datei könnte schädlich sein» mit «Trotzdem herunterladen» bestätigen).</li>
+    <li>Einstellungen → nach <b>«Zertifikat»</b> suchen → <b>CA-Zertifikat installieren</b> (je nach Hersteller unter Sicherheit → Verschlüsselung &amp; Anmeldedaten → Zertifikat installieren) → «Trotzdem installieren» → Datei <code>munggi-feldserver.cer</code> wählen.</li>
+    <li>Chrome vertraut danach dem Feldserver.</li>
+  </ol>
+
+  <h2>2 · Munggi-App öffnen</h2>
+  <a class="btn sec" href="https://{{IP}}:{{PORT}}/">App vom Feldserver öffnen (https://{{IP}}:{{PORT}}/)</a>
+  <p class="muted">Läuft erst nach dem Zertifikatsschritt ohne Warnung. In Safari «Teilen → Zum Home-Bildschirm», in Chrome «App installieren» –
+  danach startet die App auch ohne Verbindung zum Server. Ist die App bereits von einer anderen Adresse installiert, kann sie ebenfalls
+  verwendet werden; Projekte und Offline-Karten sind je Installationsadresse getrennt.</p>
+
+  <h2>3 · Sitzung beitreten</h2>
+  <ol>
+    <li>In der App: <b>Mehr → Sitzung</b> (oder Suche «Sitzung»).</li>
+    <li>Einsatzcode und – falls vereinbart – Passphrase vom Host eintragen, Rolle wählen, «Standort teilen» an.</li>
+    <li>Adresse <code>{{IP}}:{{PORT}}</code> → <b>Beitreten</b>. 📍 GPS einschalten.</li>
+  </ol>
+
+  <div class="box warn">
+    <b>Wenn die Verbindung nicht zustande kommt:</b> Handy im gleichen WLAN/Hotspot? Zertifikat installiert <i>und</i> (iPhone) Vertrauen
+    eingeschaltet? Einsatzcode identisch? Auf dem Host-PC die Windows-Firewall für private Netze freigegeben?
+  </div>
+  <p class="muted">Diese Seite speichert nichts und ist nur im lokalen Netz erreichbar. Der Einsatzcode wird hier bewusst nicht angezeigt.</p>
+</main>
+</body>
+</html>

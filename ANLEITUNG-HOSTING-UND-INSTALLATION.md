@@ -483,3 +483,19 @@ Service-Worker-Cache `kocoa-v186-T373-2026-10-21`. Nach dem Hochladen einmal neu
 
 Service-Worker-Cache `kocoa-v187-T374-2026-10-21`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T405 (2026-10-23) – neue Bedienoberfläche (T388–T405) auch auf dem Telefon
+
+Dieser Stand holt alle Desktop-Etappen seit T374 auf das Telefon. Funktionen, Daten und Projekte bleiben gleich – neu ist die Hülle:
+
+- **Einheitlicher Stil (olive):** ruhige, deckende Flächen (Panel dunkel, Karten heller, Felder dunkel), ROT/BLAU wie bisher, Tasten mindestens 44 px hoch, Symbol mit Beschriftung, Ein/Aus grün. Häufige Aktionen stehen direkt, seltene unter «···» oder in aufklappbaren Zeilen.
+- **Werkzeuge & Karten (Blatt):** Übersicht in vier Gruppen (Kartengrundlagen · Einzeichnen & Analysieren · Planung & Unterlagen · Austausch & Portale); ein Bereich öffnet als eigene Ansicht mit «‹ Werkzeugübersicht».
+- **Neu gestaltete Bereiche:** KOCOA-Ebenenliste (Zustandskarte der aktiven Ebene, Auge/Schloss, «Nur aktive Ebene bearbeitbar»), Führungsunterlagen (sechs Karten), Tourenportal (Tourenarten als Tasten, Filter, Zeilen mit Auge/Details), CONOPS-Planung (Abschnitte mit Erfassungsstand), Verhältnisse (Meteo mit Tageskacheln und Vergleichstabelle; Lawinen mit Datenstand und Übernahme-Rückfrage), Objektliste (Suche, «Nur ausgewählte», Gruppenkarten, Mehrfachauswahl), Signaturen (Kategorien als Zeilen, Kategorieansicht mit «‹ Kategorie wählen»), Analyse (fünf Reiter mit Karten, Zustand «Noch kein Ergebnis / Ergebnis auf der Karte», «Ergebnis verwalten»), Karten (Basiskarte als Auswahl, Suche, «Alle Ebenen | Aktiv · n», Gruppen mit Deckkraft-Regler), Routenplaner (Routen als Karten mit Pfeil für Navigation/Zoom/Details/PDF/Löschen), Austausch (ATAK/CoT · KML/KMZ · GPS mit Exportformat-Auswahl), Offline-Karte (Reiter «Herunterladen» ①②③ und «Pakete & Speicher»).
+- **Werkzeugrad:** acht Kategorien (Favoriten, Sicht, Route, Messen, Gelände, Zeichnen, Signaturen, Mehr), «Mehr» öffnet Karten, Mobilität, Verhältnisse, Führung, SpotMap, Touren und «Menü»; Mitte = Schliessen bzw. Zurück; Kurznamen, aktives Werkzeug grün; quer wird das Rad kleiner. Feld-/Tour-Profile bleiben flache Ringe.
+- **Handcursor** mit dunklem Rand (Tablet mit Maus), 3D+ öffnet sich beim Online/Offline-Wechsel nicht mehr von selbst, Optik («Blick durchs Gerät») zeigt die Vegetation ausser im Schnellmodus.
+- Desktop-Kopfzeile (Projekt · Suche · Speichern · Bibliothek · Vollansicht · ···) gilt nur am Rechner; das Telefon behält seine Leiste.
+
+**Prüfen, ob das Telefon den neuen Stand hat:** Mehr → Diagnose; die Zeile *Build* muss `T405-2026-10-23` zeigen. Steht dort «Service Worker: nicht unterstützt», läuft die native App (TestFlight/APK) oder die Seite wurde als Datei geöffnet – dann hilft kein PWA-Update, sondern der neue Android-/iOS-Bau bzw. das Neuladen der gehosteten Adresse.
+
+Service-Worker-Cache `kocoa-v188-T405-2026-10-23`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
+

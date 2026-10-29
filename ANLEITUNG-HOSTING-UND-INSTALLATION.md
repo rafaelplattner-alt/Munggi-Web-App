@@ -513,3 +513,12 @@ Dieser Stand holt alle Etappen seit T405 auf das Telefon. Funktionen, Daten und 
 
 Service-Worker-Cache `kocoa-v189-T424-2026-10-29`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T425 (2026-10-29) – Korrekturen am Telefon nach T424
+
+- Ein Tipp auf einen Meteo-Pin öffnet in allen Profilen das Blatt «Lokalprognose» (Tag-Kacheln, Prognosetabelle, Bericht in Worten, Text teilen).
+- Das Lawinenbulletin-Fenster ist in Karten gegliedert (Bulletin · Gefahrenstufe · Lawinenprobleme · Beschrieb · Regionen · Weitere Einstellungen); am Telefon ohne «Ins Projekt» und «PDF-Blatt».
+- In 9-Line MEDEVAC und LZ Brief brechen lange Kachelwörter (SNOW/WHITEOUT) um.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T425-2026-10-29`. Service-Worker-Cache `kocoa-v190-T425-2026-10-29`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+

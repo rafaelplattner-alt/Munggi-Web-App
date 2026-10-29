@@ -499,3 +499,17 @@ Dieser Stand holt alle Desktop-Etappen seit T374 auf das Telefon. Funktionen, Da
 
 Service-Worker-Cache `kocoa-v188-T405-2026-10-23`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T424 (2026-10-29) – Feldprofile Tour/Einsatz, Meldungen im klaren Stil, Lawinen-Einschätzung (T406–T424)
+
+Dieser Stand holt alle Etappen seit T405 auf das Telefon. Funktionen, Daten und Projekte bleiben gleich.
+
+- **Meldungen im klaren Stil (T419–T421):** alle Meldungsblätter (9-Line, LZ Brief, SITREP, Beobachtung, Drohne, SALUTE/SALT, LACE, Spur, Journal, PACE, Patrouillenbericht) als nummerierte Karten mit grossen Kacheln und einer Haupttaste. Neu: **Lawinen-Einschätzung** für die Umweltzentrale (Blatt «Melden» → «Gebirge & Winter»; EAWS-Matrix rechnet die Gefahrenstufe, die bewusst übernommen oder angepasst wird; PDF mit Blatt, Foto und Matrix, Text, Feldnotiz, An Sitzung). «Kontakt» entfällt. Feldnotiz und Beobachtungsmeldung setzen den Punkt standardmässig auf der Karte. «Standort melden» hat ein eigenes Blatt.
+- **Profile Tour und Einsatz (T422–T424):** Rad mit «Meteo-Pins» (Schalter) statt Wetterpunkt und «Nachtmodus»; Lawinenbulletin nur als Ebene im Karten-Blatt (Tipp auf die Region öffnet das Bulletin, keine Stufentafel mehr); Profil «Kombiniert» entfernt; Mehr-Blatt mit Gruppe «Verbindung» (Mesh, Sitzung beitreten; im Einsatz zusätzlich Chat, Live-Standorte) und aufgeräumtem «Feldmodus» («Führung» im Einsatz); Karten- und Mehr-Blatt mit grossen Kacheln, Offline-Zeichen an Karten im Paket; Kopfanzeige antippbar (Tour-Blatt, Ortung, Standort); Tour-Blatt ohne Touren mit «Vom Tisch laden» und «Route zeichnen»; Notfall-Blatt mit «Anrufen 1414», «Anrufen 112» und «SMS mit Koordinaten».
+- **Feld-Routenblatt (T423):** Ein Tipp auf eine Route öffnet in Tour/Einsatz ein kurzes Blatt (Kennzahlen, Ankunft, Navigation starten, Rest nach GPS, Verhältnisse, Start/Tourenart/Farbe, GPX/PDF/Text/Feldnotiz; im Einsatz Rendezvous-Punkte und Linienwarnung). «Planung öffnen» zeigt die vollen Reiter.
+- **Desktop-Etappen seit T405 (auch am Telefon in der Vollansicht):** CONOPS-Werkstatt im neuen Stil (T406, nur Desktop), Sync-Matrix aus dem COA (T407/T408), «Gemeinsam arbeiten» vereinfacht (T409), Routenfenster im neuen Stil (T410–T414), Einsehbarkeit/Funkabdeckung/Sichtlinie im neuen Stil (T415/T416), Routen-PDF mit Verhältnisse-Seite (T417), 3D+ Punkte und KOCOA-Eigenschaften (T418).
+
+**Prüfen, ob das Telefon den neuen Stand hat:** Mehr → Diagnose; die Zeile *Build* muss `T424-2026-10-29` zeigen.
+
+Service-Worker-Cache `kocoa-v189-T424-2026-10-29`. Nach dem Hochladen einmal neu laden; die Meldung «Neue Version – jetzt neu laden» bestätigen.
+

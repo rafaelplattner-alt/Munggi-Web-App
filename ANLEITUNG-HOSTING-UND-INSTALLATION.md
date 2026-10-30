@@ -522,3 +522,14 @@ Service-Worker-Cache `kocoa-v189-T424-2026-10-29`. Nach dem Hochladen einmal neu
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T425-2026-10-29`. Service-Worker-Cache `kocoa-v190-T425-2026-10-29`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T431 (2026-10-30) – Etappen T426–T431: alle Fenster im klaren Stil
+
+- Bearbeitungsfenster (Zeichnen, Signaturen, Formation, Wirkungsdom, 3D-Einsicht): Karten Objekt · Darstellung · Einstellungen · Eigenschaften, Löschen rot abgesetzt, «Deckkraft» (T426).
+- Messfenster (Höhenprofil, Fläche, Distanz) mit Kennzahl-Kacheln, Teilstrecken und Diagramm; Sprechblasen Koordinaten (Kopiertasten), Strasseninfo, Wetter am Punkt im Kartenstil (T427).
+- Analyse und Simulation: Beobachtungsnetz, Rückwärtseinschnitt, Wargaming, Optik, Einzelhang-Entscheid, COA-Ebenen, Stil-Dialog (T428).
+- Verbindung und Austausch: Sitzungs-Chat, Live-Standorte, P2P, Mesh, Import, Wetterkamera, Karte drucken (T429).
+- Tourenportal-Editor, Importmodus, Dienst-Diagnose, Einführungstour; «Freies Zeichnen» mit Palette, Werkzeugen als Zeilen und einklappbarer Darstellung (T430/T431).
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T431-2026-10-30`. Service-Worker-Cache `kocoa-v191-T431-2026-10-30`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+

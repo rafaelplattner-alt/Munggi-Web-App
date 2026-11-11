@@ -533,3 +533,19 @@ Service-Worker-Cache `kocoa-v189-T424-2026-10-29`. Nach dem Hochladen einmal neu
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T431-2026-10-30`. Service-Worker-Cache `kocoa-v191-T431-2026-10-30`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
 
+
+## Stand T482 (2026-11-11) – Etappen T432–T482: Räume und Verbund, Weltkarte, Lageverfolgung, Pendenzen, Bild einpassen
+
+Dieser Stand holt alle Etappen seit T431 auf das Telefon. Projekte und Daten bleiben gleich.
+
+- **Räume und Verbund (T432–T435, T474):** Ein Feldserver führt mehrere Räume (ein Raum = ein Einsatzcode). Die Taskgroup (Leitung) und ihre Taskforces arbeiten im Verbund; die Synchromatrix der Taskforces läuft zusammen. Der Server merkt sich den letzten Stand je Raum, auch mit Passphrase (er kann ihn dann nicht lesen). **Dafür muss auf dem Feldserver bzw. VPS das `munggi-relay.js` aus diesem Paket laufen** (Begrüssung `v: 3`); die EXE braucht den Neubau T474. «Hosts im Netz finden» (Funkfeuer) gibt es nur in der EXE – Browser und Telefon können nicht mithören und geben die Adresse wie bisher ein. Details: `ANLEITUNG-MEHRPLATZ-SITZUNG.md`.
+- **Weltkarte (T436–T454):** Blatt «Karten» mit den Seiten «Schweiz | Welt». Welt Übersicht und Welt Topo aus offenen Daten, ohne Konto und ohne Schlüssel, Weltpakete für den Offline-Betrieb, Online-Karten als Ebene darüber. Ausserhalb der Schweiz arbeiten Koordinaten, Messen, Meteo, Routing und die Lawinenbulletins des Auslands (EAWS, Kanada, USA; Japan als Link). Bulletintexte erscheinen in der Anzeigesprache, sonst englisch. Pins und Marker setzt die App nie von selbst. Details: `ANLEITUNG-WELTKARTE.md`.
+- **Netzstufen (T472):** Offline · Einsatz · Übung, am Telefon im Blatt «Mehr». Im Einsatz gehen nur swisstopo, SLF, MeteoSchweiz und der eigene Feldserver; Online-Karten fremder Anbieter nur in der Stufe «Übung». Das Fenster «Netz – was geht wohin» zeigt je Dienst, was er erfährt.
+- **Lageverfolgung (T455–T466):** Im Profil «Einsatz» zeigt das Blatt «Lage» die Befehle (mit «Gelesen»), die Pendenzen, die Meldungen (mit «Bestätigen»), die eigenen Kräfte, die Laufmatrix und den Status. Die Leitung führt am Schreibtisch; das Telefon ist das Gerät der Taskforce.
+- **Pendenzen und Aufträge (T479):** offen → angenommen → läuft → erledigt, dazu «nicht möglich» mit Grund. Am Telefon reicht ein Antippen; ein Hinweis 15 Minuten vor der Frist und einer bei Überschreitung, nur beim Adressaten. Das **Auftragsblatt je Taskforce** (T480, eine A4-Seite als PDF) erstellt die Leitung am Schreibtisch.
+- **Bild einpassen (T481/T482):** Ein Foto oder eine Skizze wird über Passpunkte auf die Karte gelegt. Am Telefon: Blatt «Mehr» → Gruppe «Führung» → «Bild einpassen» (Profil «Einsatz»). Es wird nicht getippt, sondern geschoben: die Stelle im Bild unter das Kreuz schieben → «Punkt 1 im Bild setzen», dann dieselbe Stelle der Karte unter das Kreuz → «Punkt 1 auf der Karte setzen». Ab drei Punktpaaren liegt das Bild; mit vier bis sechs wird ausgeglichen und der Restfehler in Metern angezeigt. Schrägaufnahmen passen nur näherungsweise.
+- **Bedienung und Darstellung (T467–T478):** 17 Fehler aus der App-Analyse behoben, Zeitgruppen mit Zone A/B, Fehler werden sichtbar gemeldet statt verschluckt, Bilder liegen in einem eigenen Speicher, einheitliche Schriftgrössen, Radien und Farben, 463 fehlende französische und englische Texte ergänzt. Auf der Karte weichen Beschriftungen einander aus; gestapelte Signaturen zeigen einen Zähler und fächern beim Antippen auf (Einstellung «Anzeige» → «Beschriftungen»).
+
+Nicht am echten Gerät geprüft: «Bild einpassen» lief hier nur mit erzeugten Bildern und nachgestellten Fingerbewegungen.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T482-2026-11-11`. Service-Worker-Cache `kocoa-v192-T482-2026-11-11`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

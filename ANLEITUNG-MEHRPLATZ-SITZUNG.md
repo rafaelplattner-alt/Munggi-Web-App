@@ -1,4 +1,4 @@
-# Munggi-App – Mehrplatz-Sitzung im lokalen Netz (T163)
+# Munggi-App – Mehrplatz-Sitzung im lokalen Netz (T163, Räume ab T432)
 
 Mehrere PCs (und iPhones/iPads mit der PWA) arbeiten **gleichzeitig am selben
 Dokument**: Zeichnen, Signaturen, Routen, Layer-Sichtbarkeit, Projektname,
@@ -48,6 +48,165 @@ Die Sitzung braucht nur ein gemeinsames Netz – WLAN genügt:
   Auf manchen verwalteten Laptops ist der mobile Hotspot per Richtlinie
   gesperrt – vor dem Einsatz einmal testen. Reichweite typisch 20–50 m.
 
+## Räume: ein Host für Taskgroup und Taskforces (T432/T433)
+
+Begriffe: Die **Taskgroup** ist die übergeordnete Stufe (je nach Lage Bataillon oder
+Kompanie) – ihr Raum ist der Raum der Leitung. Die **Taskforces** (Det, Zug, Gruppe,
+Team, Patrouille) sind ihr unterstellt und arbeiten je in einem eigenen Raum.
+
+Ein Host-Laptop (EXE-Feldserver oder `munggi-relay.js`) betreibt seit T432 **mehrere
+Räume** gleichzeitig. Jeder Raum ist eine eigene Sitzung mit eigenem Einsatzcode
+(z. B. `TASKGROUP`, `ALPHA`, `BRAVO`); Taskforces in verschiedenen Räumen sehen sich
+gegenseitig nicht. So planen bis zu 6 Taskforces mit je bis zu 6 Laptops unabhängig
+voneinander über **einen** Host (Router/Switch nötig – ein mobiler Hotspot nimmt
+höchstens 8 Geräte auf).
+
+**Einrichten (Host = Taskgroup):** «🤝 Sitzung» → Abschnitt **Taskgroup und
+Taskforces (Räume)** einschalten.
+
+* **Leitungs-Code:** Wer sich mit diesem Code verbindet (der Host oder ein
+  Teilnehmer, der ihn im Abschnitt «Weitere Einstellungen» einträgt), ist die
+  Taskgroup-Leitung und darf die Räume verwalten: anlegen, schliessen, Stand leeren,
+  Freigaben schalten. Der Code wird **nur an die Leitung** weitergegeben; Taskforces
+  brauchen nur Adresse und ihren Raum-Code.
+* **Neue Räume zulassen:** Ein = jeder neue Einsatzcode eröffnet einen Raum
+  (Übungsbetrieb). Aus = nur die unten angelegten Räume sind erreichbar, alles
+  andere weist der Server ab (HTTP 403 «Raum nicht freigegeben») – für den
+  Einsatz aus Gründen der operativen Sicherheit empfohlen.
+* **Raumliste:** Raum-Code (= Einsatzcode der Taskforce) und Bezeichnung eintragen →
+  «Raum hinzufügen». Beim Hosten werden die Räume dem Server übergeben; der eigene
+  Einsatzcode des Hosts ist immer der Raum der Taskgroup.
+* Nach dem Verbinden zeigt der Statusblock die **Raumübersicht**: Teilnehmerzahl,
+  Alter des letzten Standes, je Raum die zwei Freigaben **«Taskgroup-Stand an die
+  Taskforce»** und **«Taskforce-Stand zur Taskgroup»** (siehe Verbund unten),
+  **Einladung** (QR-Code mit Adresse und Raum-Code – Taskforces scannen ihn mit der
+  Kamera-Beitritt-Funktion oder tippen Adresse + Code ab), **Stand leeren** und
+  **Schliessen** (trennt die Teilnehmer, löscht den gespeicherten Stand).
+
+**Beitreten (Taskforce):** wie bisher – Adresse des Hosts und **Raum-Code** als
+Einsatzcode. Der Raum-Code wirkt wie der bisherige Einsatzcode: falscher Code
+→ abgewiesen; Nachrichten anderer Räume kommen nie an.
+
+### Verbund aus Räumen (T433, Etappe C)
+
+Die Leitung hält zu jedem freigegebenen Taskforce-Raum eine zweite, **lesende
+Verbindung** – die Taskforce sieht sie als Teilnehmer «Taskgroup (lesend)». Darüber
+laufen die beiden Freigaben, je Raum einzeln schaltbar:
+
+* **Taskforce-Stand zur Taskgroup** (Standard: ein). Die Leitung holt den Stand des
+  Raums alle 60 s (vom Lage-Inhaber oder aus dem Server-Gedächtnis) und fügt ihn in
+  ihr Projekt ein – als Kopie mit Herkunft wie beim Verbund aus der Bibliothek:
+  Ebenen heissen «**ALPHA · Grenzen**» (bzw. mit der Bezeichnung des Raums), sind
+  im Layer-Baum unter der Taskforce gruppiert und fixiert. Bei jeder Abfrage werden
+  nur die Ebenen dieser Taskforce ersetzt; eigene Ebenen der Taskgroup bleiben.
+  Die Kopie ist Teil des Taskgroup-Projekts: Weitere Teilnehmer im Taskgroup-Raum
+  erhalten sie über den normalen Abgleich, und sie wird mitgespeichert.
+  «Jetzt holen» in der Raumübersicht fragt sofort ab.
+  **Synchromatrix (T434):** Mit derselben Abfrage holt die Leitung auch die
+  Sync-Matrix der Taskforce – vom Laptop, der sie in der Werkstatt führt (melden
+  sich mehrere, zählt die mit den meisten Einträgen). Sie wird wie beim Verbund
+  aus der Bibliothek in die Taskgroup-Matrix eingefügt: Elemente der Taskforce als
+  Gruppe «ALPHA», H±-Zeiten über die H-Hour der Taskforce in Uhrzeiten aufgelöst,
+  wenn sie von der Taskgroup-H-Hour abweicht (fehlt die H-Hour der Taskforce, bleibt
+  H± stehen und die Verbund-Zeile weist darauf hin), Marke «H ALPHA», Knoten in
+  der Task Org. Bei jeder Abfrage werden nur die Zeilen dieser Taskforce ersetzt.
+  Die Werkstatt wird in Sitzungen nicht abgeglichen – die zusammengeführte Matrix
+  liegt also auf dem Laptop der Leitung (und im gespeicherten Taskgroup-Projekt).
+* **Taskgroup-Stand an die Taskforce** (Standard: aus). Die Leitung sendet ihre
+  eigenen Ebenen (ohne Kopien aus anderen Räumen) in den Raum; jede Taskforce sieht
+  sie als Block «**Taskgroup · Grenzen**» – fixiert, im Layer-Baum unter «Taskgroup»,
+  im Sitzungs-Dialog mit Uhrzeit und Ein-/Ausblenden. Der Block gehört **nicht** zum
+  Abgleich der Taskforce: Er wird weder an andere Taskforce-Laptops noch in den
+  Schnappschuss noch zurück zur Taskgroup übertragen; wer beitritt, erhält ihn
+  direkt von der Leitung. Ändert die Taskgroup etwas, kommt der Block innert
+  30 s nach; «Jetzt senden» schickt ihn sofort. Wird die Freigabe entzogen,
+  verschwindet der Block bei allen Taskforce-Laptops. (Löst jemand die Fixierung
+  und zeichnet im Block, bleibt das lokal und wird beim nächsten Stand ersetzt.)
+
+Beides zusammen ergibt den Verbund: Die Taskgroup plant auf dem Gesamtbild aller
+Taskforces, die Taskforces planen auf dem freigegebenen Rahmen der Taskgroup, ohne
+dass eine Taskforce die Räume der anderen sieht. Verwendet die Sitzung eine
+Passphrase, muss sie in allen Räumen gleich sein (die Lese-Verbindung leitet ihren
+Schlüssel aus Passphrase und Raum-Code ab).
+
+**Raum-Gedächtnis (Etappe B):** Der Server fragt alle 120 s den Lage-Inhaber des
+Raums nach einem Schnappschuss und hält den letzten Stand je Raum im Speicher
+(EXE: Ordner `sitzungen/` neben dem Zertifikat im App-Datenordner;
+Node: `sitzungen/` neben dem Skript oder `--data <Ordner>`). Folgen:
+
+Seit T474: Auf die Bitte des Servers antwortet genau ein Gerät – die Leitung vor einem
+Schreibtisch-Gerät vor einem Telefon. Hat sich die Lage seit dem letzten Mal nicht
+geändert, meldet es nur «unverändert» (rund 70 Bytes statt des ganzen Stands). Geht ein
+Teilnehmer, fragt der Server sofort nach, statt die Frist abzuwarten. Das Gedächtnis
+arbeitet jetzt auch mit Passphrase: Der Server bewahrt den verschlüsselten Schnappschuss
+ungelesen auf und gibt ihn dem Ersten im leeren Raum; lesen kann ihn nur, wer die
+Passphrase kennt. Dafür brauchen App und Server den Stand T474 – ein älterer Server
+(EXE vor T474) führt bei Passphrase wie bisher kein Gedächtnis.
+
+Fassungen: Weicht die App-Fassung eines Teilnehmers ab, erscheint beim Beitritt ein
+Hinweis. Für die Sitzung, besonders für die Lageverfolgung, brauchen alle Geräte
+dieselbe Fassung.
+
+
+* Verlassen alle Teilnehmer eines Raums (Pause, Akku leer, Neustart), bleibt der
+  Stand erhalten – der nächste Beitritt erhält ihn vom Server (markiert als «vom
+  Server»), auch wenn kein anderer Laptop mehr verbunden ist.
+* Ein Laptop, der nach 3 Anfragen von keinem Teilnehmer eine Lage bekommt
+  (z. B. weil der Lage-Inhaber gerade abwesend ist), erhält ebenfalls den
+  gespeicherten Stand. Solange Teilnehmer online sind, hat deren Lage Vorrang.
+  Ist nur die Lese-Verbindung der Leitung im Raum, wird der erste Beitretende
+  nach 4 s zum Lage-Inhaber.
+* Der Server speichert die Datei spätestens 30 s nach einer Änderung sowie beim
+  Trennen des letzten Teilnehmers und beim Beenden. **Stand leeren** oder
+  **Schliessen** löscht sie. Vor einer neuen Übung die Räume leeren, damit kein
+  alter Stand geladen wird.
+* Ohne Räume (Abschnitt ausgeschaltet) verhält sich alles wie bisher: ein Raum
+  mit dem Einsatzcode, Gedächtnis ebenfalls aktiv.
+
+**Feldserver ohne EXE (Node):**
+
+```
+node munggi-relay.js 8765 TASKGROUP --rooms ALPHA,BRAVO,CHARLIE --lead LEIT-4711
+node munggi-relay.js 8765 UEBUNG --open --lead LEIT-4711
+```
+
+Weitere Schalter: `--data <Ordner>` (Gedächtnis-Ablage), `--snapsec <s>`
+(Abstand der Schnappschuss-Anfragen, Standard 120). Über den Leitungs-Code
+können Räume im Betrieb aus der App heraus angelegt und geschlossen werden,
+ohne den Server neu zu starten.
+
+**Grenzen:** Der Host-Laptop bleibt Einzelpunkt: fällt er aus, enden alle Räume –
+die Stände sind aber auf der Platte und stehen nach dem Neustart des Hostens
+wieder bereit. Zwischen Taskforces gibt es keinen direkten Austausch (nur über
+die Taskgroup). Übertragen werden Ebenen-Inhalte (Signaturen, Zeichnungen, Routen,
+Messungen) und – zur Taskgroup hin – Synchromatrix und Task-Org-Knoten; Werkstatt-
+Folien, Wargaming, Meldungen und Beurteilungen der Taskforces kommen weiterhin
+über den Verbund aus der Bibliothek (T368).
+
+## Hosts im Netz finden – Funkfeuer (T435, nur Windows-EXE)
+
+Statt die Adresse abzutippen, können Windows-Apps den Host **sehen**:
+
+* **Host:** Beim Erstellen der Sitzung ist der Schalter **«Im Netz sichtbar
+  (Funkfeuer)»** standardmässig ein. Der Feldserver sendet dann alle 2 s eine kleine
+  Meldung ins lokale Netz (UDP-Port 8764): Anzeigename des Hosts, Port, ob neue
+  Räume zugelassen sind und wie viele Räume es gibt – **kein Raum-Code**. Die
+  Taskgroup-Leitung kann den Schalter jederzeit ausschalten, auch während die
+  Sitzung läuft (operative Sicherheit); dann ist alles wie bisher.
+* **Teilnehmer (EXE):** «🤝 Sitzung» → Beitreten → Abschnitt **«Gefundene Hosts»**
+  zeigt eine Kachel je Host (Name, Adresse, Räume, offen/geschlossen, grüner Punkt =
+  gerade gehört). Antippen füllt die Adresse ein; es bleiben Anzeigename und
+  Raum-Code. Die Liste wird alle 2 s aufgefrischt, Hosts verschwinden 8 s nach dem
+  letzten Signal.
+* **Handys/PWA und Browser** können im Netz nicht mithören – dort weiterhin
+  Einladungs-QR (Raumübersicht), «Gespeicherte Server» oder die Hotspot-Adresse.
+* **Reichweite:** das eigene WLAN/LAN bzw. der Hotspot des Hosts (Broadcast). Über
+  Router-Grenzen, VPN oder Mobilfunk gibt es kein Funkfeuer.
+* **Stolpersteine:** Die Windows-Firewall fragt beim ersten Hosten bzw. beim ersten
+  Öffnen des Beitreten-Dialogs nach – für private (im Hotspot-Fall auch öffentliche)
+  Netze zulassen, sonst hört die App nichts (UDP 8764 eingehend). Manche Gäste-WLANs
+  blockieren Broadcasts zwischen Geräten («Client-Isolation») – dann QR oder Adresse.
+
 ## Einbau des Sitzungs-Servers in die Windows-EXE (einmalig)
 
 1. `collab_relay.rs` nach `kocoa-tauri/src-tauri/src/` kopieren.
@@ -64,7 +223,26 @@ Die Sitzung braucht nur ein gemeinsames Netz – WLAN genügt:
    ```
 3. Wie gewohnt `src/index.html` durch die neue `kocoa_reglement_8_65.html`
    ersetzen und `cargo tauri build` ausführen.
-   Es sind **keine zusätzlichen Rust-Abhängigkeiten** nötig (nur Standardbibliothek).
+   Seit T246 braucht der Feldserver die Abhängigkeiten `tokio`, `tokio-rustls`,
+   `rustls`, `rcgen` und `rustls-pemfile` (siehe Cargo.toml des EXE-Projekts).
+
+**Neubau für T432/T435/T436 (Räume, Funkfeuer, Weltkarten):** Nur `collab_relay.rs` ersetzen (aktueller
+Stand liegt im Quellbaum-Zip unter `kocoa-dev/collab_relay.rs`; T436 enthält T432 und T435) und in `src-tauri/Cargo.toml`
+unter `[dependencies]` eine Zeile ergänzen:
+
+```toml
+serde_json = { version = "1", features = ["preserve_order"] }
+```
+
+`main.rs` bleibt unverändert (die drei registrierten Befehle `start_collab_relay`,
+`stop_collab_relay`, `collab_relay_info` heissen gleich; `start_collab_relay`
+nimmt nun zusätzlich die optionalen Felder `rooms`, `open`, `lead` sowie – T435 – `visible`, `host_name` an;
+`collab_relay_info` liefert zusätzlich `found`; T436: `/welt/…` auf Haupt- und Hilfsport, `collab_relay_info` mit `welt`/`weltDir`).
+Danach `src/index.html` austauschen und `cargo tauri build`. Der Verbund aus Räumen (T433)
+braucht keinen weiteren Neubau – er läuft über die App. Eine ältere EXE
+funktioniert mit der neuen HTML weiterhin, nur ohne Räume: Der Abschnitt «Räume»
+kann eingeschaltet werden, der alte Feldserver kennt aber nur den Einsatzcode des
+Hosts und kein Gedächtnis.
 
 ## Ohne EXE hosten (Browser/PWA oder zum Testen)
 
@@ -74,10 +252,9 @@ Auf einem beliebigen PC mit Node.js:
 node munggi-relay.js 8765 ALPHA1
 ```
 
-(Port und Einsatzcode frei wählbar; mit `--www pwa` liefert der Server zusätzlich
-die PWA über https aus, siehe «Feldserver» unten.) Danach in der App auf diesem PC
+(Port und Einsatzcode frei wählbar.) Danach in der App auf diesem PC
 «Hosten» drücken – sie verbindet sich mit dem laufenden Server.
-Handys (iPhone/Android) können immer nur **beitreten**, nicht hosten.
+iPhones/iPads können immer nur **beitreten**, nicht hosten.
 
 ## Was abgeglichen wird (Stand T172)
 
@@ -103,137 +280,9 @@ durch eine fremde Änderung ersetzt – diese wird nach dem Loslassen angewendet
   fremden Sitzungen werden von der App ignoriert. Vorgeschlagene Codes sind
   kryptografisch zufällig (8 Zeichen). Eingehende Daten werden auf Struktur,
   Wertebereiche und Grösse geprüft.
-* Ohne Passphrase (T245) ist die Übertragung zwischen PCs unverschlüsselt (`ws://`);
-  Handys verbinden sich seit T246 immer über TLS (`wss://`). Gedacht für ein
-  **abgeschottetes, vertrauenswürdiges Netz**; für Inhalte, die niemand mitlesen
-  darf, die Passphrase setzen (Ende-zu-Ende, unabhängig von ws/wss).
+* Die Verbindung ist unverschlüsselt (`ws://`) – für den Einsatz in einem
+  **abgeschotteten, vertrauenswürdigen Netz** gedacht. Keine Nutzung über
+  offene/fremde Netze; keine echten klassifizierten Inhalte über ungesicherte
+  Funkstrecken synchronisieren.
 * Der Server speichert nichts und leitet nur weiter; nach dem Beenden der
   Sitzung ist nichts zurückgeblieben.
-
-## Verschlüsselung, Live-Standorte und Chat (T245)
-
-* **Passphrase (optional):** Im Dialog «🤝 Sitzung» unter «🔒 Verschlüsselung · Rolle · Standort»
-  eine Passphrase eintragen – **vor** «Hosten» bzw. «Beitreten», auf allen Geräten gleich,
-  zusammen mit demselben Einsatzcode. Der Schlüssel wird aus Passphrase + Einsatzcode abgeleitet
-  (PBKDF2, 120 000 Runden, SHA-256) und jede Nachricht mit AES-256-GCM verschlüsselt. Der
-  Sitzungs-Server (Relay) sieht nur Chiffrat; ein Gerät ohne oder mit falscher Passphrase
-  bekommt einen Hinweis und bleibt aussen vor. Voraussetzung ist ein «sicherer Kontext» des
-  Browsers (Windows-EXE, Datei, PWA über HTTPS oder localhost) – über schlichtes HTTP steht
-  WebCrypto nicht zur Verfügung, die App meldet das im Dialog.
-* **Live-Standorte:** Jedes Gerät mit eingeschaltetem GPS (📍) und aktiver Option «Eigenen
-  GPS-Standort teilen» meldet seinen Standort (Rufname, Rolle, Genauigkeit) gedrosselt in die
-  Sitzung. Die anderen erscheinen als Marker mit Etikett; grün = aktuell (< 60 s), grau =
-  veraltet, rot = verschollen (> 5 min) oder GPS aus. Fenster «👥 Teilnehmer & Live-Standorte»
-  (Leiste über der Karte, Dialog, Suche, «Mehr» am Handy): Liste mit Distanz und Peilung vom
-  eigenen Standort, Klick zentriert, «Alle zeigen». Die Rolle ist freier Text – die Vorschläge
-  sind nur Beispiele.
-* **Chat:** Fenster «💬 Sitzungs-Chat» mit Kurzmeldungs-Tasten (Verstanden, Negativ, Warten,
-  Weiter, Sammeln, Standort?, Hilfe nötig), freier Eingabe (Enter sendet), optional mit eigenem
-  Standort (📍-Schalter; Empfänger klicken 📍 und die Karte springt hin). Jede Nachricht zeigt
-  «✓ n/N» = von n der N anderen Geräte empfangen. Ungelesene Nachrichten erscheinen als Zähler
-  in der Leiste über der Karte und als Hinweis. Spät beitretende Geräte erhalten vom Host die
-  letzten 50 Nachrichten. «⬇ Verlauf» speichert den Chat als Textdatei. Der Verlauf lebt nur
-  in der laufenden App (kein Speichern auf dem Server).
-
-## Feldserver: Handys (iPhone/Android) beitreten lassen (T246)
-
-**Warum ein eigener Schritt?** Die Munggi-App auf dem Handy ist eine installierte Web-App
-(PWA) und läuft über **https**. Aus einer https-Seite erlaubt kein Browser eine unverschlüsselte
-`ws://`-Verbindung ins LAN («Mixed Content»). Der Sitzungs-Server nimmt darum seit T246 auf
-demselben Port auch **TLS (`wss://`)** an – mit einem selbst erzeugten Zertifikat, dem die Handys
-einmalig vertrauen müssen. PCs (EXE, Datei) sind nicht betroffen und verbinden sich wie bisher.
-
-**Ablauf (Host-PC mit Windows-EXE)**
-
-1. Optional den *Mobilen Hotspot* von Windows einschalten (feste Adresse 192.168.137.1 – dann
-   bleibt das Zertifikat dauerhaft gültig). Alle Handys mit diesem WLAN verbinden.
-2. «🤝 Sitzung» → Einsatzcode (und ggf. Passphrase) → **Hosten**. Die EXE erzeugt beim ersten Mal
-   das Zertifikat «Munggi Feldserver» und zeigt im Dialog den Kasten «📱 Handys beitreten lassen»
-   mit **QR-Code** und den Adressen:
-   * Hilfsseite (unverschlüsselt): `http://192.168.137.1:8766/` – Zertifikat + Anleitung
-   * App vom Feldserver: `https://192.168.137.1:8765/` – die PWA, direkt aus der EXE ausgeliefert
-   * Sitzung: `192.168.137.1:8765`
-3. Handy: QR scannen bzw. Hilfsseite öffnen → **Zertifikat laden** → installieren:
-   * iPhone (in **Safari**, nicht Chrome): «Profil laden» erlauben → Einstellungen → Profil geladen
-     → Installieren (Warnung «nicht verifiziert» bestätigen) → Einstellungen → Allgemein → Info →
-     Zertifikatsvertrauenseinstellungen → «Munggi Feldserver» einschalten. Landet die Datei statt
-     dessen in «Dateien › Downloads», dort antippen – das löst dieselbe Profil-Abfrage aus.
-   * Android: Einstellungen → nach «Zertifikat» suchen → CA-Zertifikat installieren → Datei
-     `munggi-feldserver.cer` wählen.
-4. Handy: `https://192.168.137.1:8765/` öffnen (jetzt ohne Warnung) → «Zum Home-Bildschirm» /
-   «App installieren». Die App läuft danach auch ohne Server. (Eine bereits von einer anderen
-   Adresse installierte Munggi-App kann ebenfalls beitreten – Projekte/Offline-Karten sind je
-   Installationsadresse getrennt.)
-5. Handy: Mehr → Sitzung → Einsatzcode, Passphrase, Rolle, «Standort teilen» → Adresse
-   `192.168.137.1:8765` → **Beitreten**. Der Dialog zeigt auf https automatisch den Hinweis mit
-   dem Link zur Hilfsseite; bleibt die Verbindung aus, erscheint nach einigen Sekunden ein Hinweis
-   («Zertifikat installiert und Vertrauen eingeschaltet?»).
-
-Das Zertifikat muss nur **einmal pro Handy** installiert werden – solange der Feldserver eine
-Adresse behält, die im Zertifikat steht (alle Adressen des PCs zum Zeitpunkt der Erzeugung plus
-192.168.137.1). Wechselt der PC in ein anderes Netz mit neuer Adresse, erzeugt die EXE beim
-nächsten Hosten ein neues Zertifikat und die Handys installieren es erneut.
-
-**Ohne EXE (Node):** `node munggi-relay.js 8765 CODE --www pwa` (Ordner `pwa` = Inhalt des
-Mobile-PWA-Zips). Das Zertifikat wird mit `openssl` erzeugt (unter Windows z. B. aus «Git für
-Windows»; alternativ `--cert-dir` auf den Ordner `KOCOA-Daten` der EXE oder `--cert/--key`).
-`--no-tls` schaltet auf das alte Verhalten (nur ws://) zurück.
-
-**Firewall:** Ports 8765 (Sitzung, PWA) und 8766 (Hilfsseite) für private Netze freigeben; stuft
-Windows den Hotspot als «öffentlich» ein, auch dort. Der Einsatzcode wird auf der Hilfsseite
-bewusst nicht angezeigt.
-
-## P2P-Sitzung ohne Laptop – über den Hotspot eines Handys (T249)
-
-Für eine Gruppe am gleichen Ort braucht es weder Laptop noch Feldserver: Die Geräte verbinden sich direkt miteinander
-(WebRTC-Datenkanäle, in Safari und Chrome), das Netz ist der Hotspot irgendeines Handys. Alles Übrige (Abgleich, Layer,
-Live-Standorte, Chat, Passphrase) ist dasselbe wie in der Sitzung über den Server.
-
-**Ablauf**
-
-1. Ein Handy schaltet seinen persönlichen Hotspot ein, alle anderen verbinden sich mit diesem WLAN. (Der Ersteller kann
-   Hotspot-Name und Kennwort im P2P-Fenster eintragen – dann zeigt die App einen WLAN-QR, den die anderen mit der
-   Kamera-App scannen.)
-2. Ersteller: Mehr → «📱 P2P-Sitzung» (oder Suche «P2P», oder Sitzungsdialog → «P2P-Sitzung öffnen») → Name, Einsatzcode,
-   optional Passphrase → **«Sitzung erstellen & QR zeigen»**.
-3. Beitretender: «📱 P2P-Sitzung» → **«Einladung scannen & beitreten»** → Kamera auf den QR des Erstellers. Das Handy
-   zeigt danach seinen **Antwort-QR**.
-4. Ersteller: **«Antwort scannen»** → Kamera auf den Antwort-QR. Verbunden – der Ersteller sieht sofort einen neuen
-   Einladungs-QR für das nächste Gerät.
-5. Weitere Geräte: Schritte 3–4 mit *irgendeinem* Mitglied (jedes kann einladen). Die Verbindung zu allen übrigen
-   Mitgliedern baut die App im Hintergrund über das bestehende Netz auf; der Neue erhält die Lage und den Chatverlauf.
-
-Einsatzcode und – falls gesetzt – Passphrase stehen im Einladungs-QR und müssen nicht eingetippt werden. Kein Scanner
-zur Hand: «Einladung kopieren» / «Antwort einfügen» übertragen den Code auch als Text (z. B. per AirDrop/Messenger,
-sobald wieder Netz da ist).
-
-**Technik, kurz:** Kein STUN/TURN, nur lokale Kandidaten (die Browser tarnen sie als mDNS-Namen `….local`, die im
-selben WLAN auflösbar sind). Kanäle sind DTLS-verschlüsselt; die Passphrase verschlüsselt zusätzlich Ende-zu-Ende.
-Nachrichten werden an alle Nachbarn gesendet und höchstens zwei Sprünge weitergereicht (Deduplizierung), grosse
-Nachrichten in Teilstücke zerlegt. Koordinator (Schnappschuss und Chatverlauf für Spät-Beitretende) ist das Mitglied mit
-der kleinsten Teilnehmer-ID unter denen, die länger als 8 s dabei sind – ohne Absprache eindeutig, überlebt den Ausstieg
-des Erstellers. Der Scanner nutzt BarcodeDetector (Chrome/Android) oder jsQR (iPhone) – Kamera nur in der installierten
-App bzw. über https.
-
-**Grenzen:** Reichweite = Hotspot (grob 20–50 m), sinnvoll bis etwa 8–10 Geräte (jedes mit jedem verbunden). Fällt das
-Hotspot-Handy aus, müssen die anderen einen neuen Hotspot wählen und neu beitreten. iPhone schläfert die Web-App bei
-gesperrtem Bildschirm ein – Verbindungen brechen dann ab; Bildschirm eingeschaltet lassen (Automatische Sperre aus) oder
-nach dem Aufwecken neu beitreten. Zwischen Hotspot-Geräten mancher Hersteller ist «Client-Isolation» aktiv, dann sehen
-sich die Handys nicht – Hotspot eines anderen Geräts probieren.
-
-## Meldungen an die Sitzung senden (T250)
-
-* **Wo:** 9-Liner MEDEVAC, LZ Brief, SITREP und Beobachtungsmeldung haben neben «Kopieren»/«Teilen»
-  den Knopf «📡 An Sitzung». Am Handy findet er sich zusätzlich im Standort-Blatt («Standort melden»)
-  und in der Notfall-Anzeige (NOTFALL – Standort). Ohne aktive Sitzung erscheint ein Hinweis mit
-  Sprung zum Sitzungs-Dialog.
-* **Wie:** Die Meldung geht als Karte in den Sitzungs-Chat aller Teilnehmer – über den Feldserver
-  genauso wie über die P2P-Sitzung, verschlüsselt, wenn eine Passphrase gesetzt ist. Mitgesendet
-  werden der Funkspruch-Text, die Formularfelder und (falls vorhanden) der Standort.
-* **Beim Empfänger:** 9-Liner und Notfall lösen den Alarm aus (Ton, Vibration, roter Bildschirmrand,
-  Benachrichtigung – wie beim Geofence, Einstellung «Alarm» unter Messen); SITREP, Beobachtung und
-  Standort nur einen Hinweiston. Auf der Karte im Chat: «📋 Öffnen» füllt das eigene Formular mit
-  den empfangenen Angaben (z. B. um den 9-Liner weiterzugeben oder zu ergänzen), «🗺 Auf Karte»
-  springt zum Standort, «Kopieren» legt den Text in die Zwischenablage. Der Absender sieht wie beim
-  Chat «✓ n/N» als Lesebestätigung.
-* **Spät Beitretende** erhalten die Meldungen mit dem Chatverlauf (letzte 50 Nachrichten) nach.

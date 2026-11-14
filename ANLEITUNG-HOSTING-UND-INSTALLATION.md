@@ -549,3 +549,20 @@ Dieser Stand holt alle Etappen seit T431 auf das Telefon. Projekte und Daten ble
 Nicht am echten Gerät geprüft: «Bild einpassen» lief hier nur mit erzeugten Bildern und nachgestellten Fingerbewegungen.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T482-2026-11-11`. Service-Worker-Cache `kocoa-v192-T482-2026-11-11`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+
+## Stand T499 (2026-11-13) – Etappen T483–T499: Lawinenkunde, Blatt «Heute», Routenplanung, 3D+ ohne Netz, halbhohe Blätter
+
+Dieser Stand holt alle Etappen seit T482 auf das Telefon. Projekte und Daten bleiben gleich; am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **Blätter am Telefon (T499):** Werkzeuge, Ebenen, Karten, Mehr und Melden nehmen noch gut die halbe Höhe ein; die Karte bleibt darüber sichtbar. Kopfzeile und Schliessen-Taste bleiben beim Blättern stehen, die Schliessen-Taste misst 44 px (auch bei Werkzeuge und Ebenen). Am Griff nach oben ziehen macht ein Blatt gross – es endet unter der Statusleiste des Telefons.
+- **Route zeichnen beenden (T499):** Taste «Fertig» in der Leiste der Folge-Arten. Das Doppeltippen ist für den Finger grosszügiger (0,6 s, 36 px) und gilt auch bei «Route planen»; wird beendet, während der letzte Abschnitt noch rechnet, bleibt dieser Abschnitt erhalten.
+- **Lawinenkunde (T483–T488):** Der RiskCheck ersetzt den Einzelhang-Entscheid (Gefahr × Konsequenzen → Risiko tief / erhöht / hoch, mit Massnahmen). Der Lawinen-Check der Route zeigt die Stellen je Hang mit «Spur x° · Hang y°», den Auslauf und die Zeit im Lawinengelände. **Blatt «Heute»** (Mehr → Feldmodus): Beobachtungen unterwegs – Lawinenproblem, Alarmzeichen mit Ort und Zeit, Notiz; der RiskCheck «Vor Ort» übernimmt das Gesamtbild. Dazu die Ebenen Wildruhezonen und Wildtierschutzgebiete, die Taste 144 im Notfall-Blatt und die gegliederte Nachbesprechung mit Spurvergleich. Drittel-Grenzen, Massnahmen und Auslauf-Einstufung sind von der Ausbildung noch zu bestätigen.
+- **Routenplanung (T489–T491, T497, T498):** Im Routenfenster steht das Höhenprofil zuoberst, am Telefon folgt «Unterwegs» mit «Navigation starten», danach Erarbeiten, Teilstrecken, Schlüsselstellen, Entscheidungspunkte, Rendezvous-Punkte, Alternativrouten und Prüfen. Kopf, Zeitplan, Verlauf und PDF zeigen dieselbe Marschzeit. Die Folge-Arten heissen «Weg folgen» (Strassen, Wege und Wanderwege in einem), «Skitour», «Fahrzeug» und «Frei»; die erste Folge-Art belegt Tourenart und Gelände vor. Reiter Verhältnisse mit einem Lawinen-Check und «Meteo auf der Route».
+- **Routenplan-PDF (T495):** neues Kleid mit Kopfband und Fusszeile, Bulletin und Lawinen-Check als Tabellen, Schlüsselstellen und Rendezvous-Punkte in der Summenzeile, bis zu sechs 3D+ Aufnahmen je Route auf eigenen Bildseiten.
+- **3D+ (T492–T496):** CesiumJS liegt nach dem ersten Start im App-Speicher – 3D+ öffnet danach auch ohne Netz (Gelände und Bilder brauchen weiterhin Netz oder ein Offline-Paket). «Schnee» färbt das Gelände von Hand ab einer Schneegrenze; «Aufnahme» hält den Blick für den Routenplan fest.
+- **Darstellung (T492, T493):** Signaturen der Lawinenstufen neu gezeichnet, Gefahrenrose wie im Bulletin, Signatursuche findet auch Formationen, lange Signaturlisten sind ganz erreichbar.
+
+Nicht am echten Gerät geprüft: Die Höhe der Blätter, die Schliessen-Taste und «Fertig» liefen hier nur in der nachgestellten Telefon-Ansicht (390 × 844) mit nachgestellten Fingerbewegungen; 3D+ Aufnahmen und Schnee wurden nur am Schreibtisch geprüft.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T499-2026-11-13`. Service-Worker-Cache `kocoa-v193-T499-2026-11-13`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

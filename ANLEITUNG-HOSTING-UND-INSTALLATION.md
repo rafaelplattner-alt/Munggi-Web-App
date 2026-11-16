@@ -566,3 +566,18 @@ Dieser Stand holt alle Etappen seit T482 auf das Telefon. Projekte und Daten ble
 Nicht am echten Gerät geprüft: Die Höhe der Blätter, die Schliessen-Taste und «Fertig» liefen hier nur in der nachgestellten Telefon-Ansicht (390 × 844) mit nachgestellten Fingerbewegungen; 3D+ Aufnahmen und Schnee wurden nur am Schreibtisch geprüft.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T499-2026-11-13`. Service-Worker-Cache `kocoa-v193-T499-2026-11-13`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+
+## Stand T510 (2026-11-15) – Etappen T500–T510: Offline-Betrieb (schlanke Pakete, Download als Strom, Namen und Höhen offline, eigene Karten), Führungskarte
+
+Dieser Stand holt alle Etappen seit T499 auf das Telefon. Projekte und Daten bleiben gleich; am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`). **Wichtig für die Sitzung:** Arbeitsplatz und Telefone brauchen denselben Stand – die Führungskarte am Arbeitsplatz (T510) legt neue Ebenen und einen neuen Befehlszustand an, die ältere Stände nicht kennen.
+
+- **Offline-Pakete schlanker (T500, T501):** Das Paket deckt genau das gewählte Gebiet (vorher wurde in allen Stufen aufgerundet), jede Ebene nur bis zu ihrer feinsten echten Stufe. Für das 3D+-Gelände lässt sich der Detailgrad wählen; die Tabelle zeigt vor dem Laden, was jede Ebene kostet. Bei den Zoomfeldern steht der Kartenmassstab (Stufe 15 = 1:50 000, 16 = 1:25 000, ab 17 = 1:10 000). Das Laden eines Pakets schaltet keine Ebene mehr von selbst ein.
+- **Download als Strom (T504):** Kacheln werden beim Laden laufend weggeschrieben statt im Arbeitsspeicher gesammelt – am Telefon in den Dateibereich der App (wenn die App über https läuft). Taste «Pause», Anzeige von Menge, Tempo und Rest; bei Überlast des Dienstes wartet der Download von selbst und macht langsamer weiter.
+- **Namen und Höhen offline (T505–T507):** Ebene «Ortsnamen Schweiz» (swissNAMES3D) – die Ortssuche findet danach auch ohne Netz. Taste «Ganze Schweiz (Übersicht)»: Landeskarte bis 1:100 000 und Namen, rund 1,2 GB. Ebene «Höhendaten Schweiz (swissALTI3D)» für genaue Höhen (Hangneigung, Einsehbarkeit, Profil) aus Schweizer Daten. Das Wegnetz im Paket ist in Ortschaften jetzt vollständig – ältere Pakete mit Wegnetz neu laden.
+- **Eigene Karten (T508, T509):** Dateien `.pmtiles` und `.mbtiles` (Rasterkacheln) lassen sich als Ebene «Eigene Karten» einlesen, mit Deckkraft und «Zum Gebiet»; sie erscheinen auch im PDF-Kartenblatt, im Druck, in 3D und 3D+. In einer Sitzung werden sie nicht geteilt.
+- **Führungskarte (T510):** Am Arbeitsplatz ist die Führungskarte neu aufgebaut (BLAU Soll/Ist, ROT und Unbekannt/Neutral Geplant/Gemeldet, Umwelt; Befehl an eine oder mehrere Formationen). **Am Telefon bleibt das Blatt «Lage» wie bisher.** Neu sichtbar: die Ebenen «Lawinensituation», «Meteo», «Naturgefahren» in der Ebenenliste, Signaturen und Formationen, die die Leitung anlegt, und der Befehlszustand «Erledigt» (ein erledigter Befehl verschwindet aus der Liste der offenen Befehle).
+
+Nicht am echten Gerät geprüft: Der Download in den Dateibereich der App und die eigenen Karten liefen hier nur in der nachgestellten Telefon-Ansicht; die neue Führungskarte gibt es am Telefon noch nicht (gleiche Liste im Blatt «Lage» folgt).
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T510-2026-11-15`. Service-Worker-Cache `kocoa-v194-T510-2026-11-15`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

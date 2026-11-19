@@ -581,3 +581,34 @@ Dieser Stand holt alle Etappen seit T499 auf das Telefon. Projekte und Daten ble
 Nicht am echten Gerät geprüft: Der Download in den Dateibereich der App und die eigenen Karten liefen hier nur in der nachgestellten Telefon-Ansicht; die neue Führungskarte gibt es am Telefon noch nicht (gleiche Liste im Blatt «Lage» folgt).
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T510-2026-11-15`. Service-Worker-Cache `kocoa-v194-T510-2026-11-15`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+## Stand T513 (2026-11-16) – Etappen T511–T513: Lageverfolgung aufbauen, Führungskarte ohne Karten, Einbindung der Gruppenführer
+
+Dieser Stand bringt die Einbindung aufs Telefon. Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`). **Wichtig für die Sitzung:** Arbeitsplatz und Telefone brauchen denselben Stand – ältere Telefone kennen weder die Bindung an eine Formation noch die Pendenzen am Befehl.
+
+- **Einbindung (T513):** Im Blatt «Lage» steht zuoberst «Einladung scannen». Den QR der Formation zeigt die Leitung am Bildschirm («Gerät einbinden …») oder auf dem Einbindungsblatt. Nach dem Scan zeigt das Telefon, als wer es beitritt – erst «Beitreten» setzt das Rufzeichen auf die Formation, tritt dem Lageraum bei und bindet das Gerät. Die Passphrase steht nie im QR. Wer schon im Lageraum ist, wählt mit «Ich bin …» die Formation aus der Liste; weist die Leitung ein Gerät zu, fragt das Telefon nach.
+- **Meine Formation:** Danach zeigt das Blatt «Lage» die eigene Formation, «Hier stehe ich», «Lagemeldung» und die «Befehle an mich» mit vollem Auftrag, Frist, «Gelesen» und dem nächsten Schritt der Rückmeldung (Angenommen → Läuft → Erledigt). Die bisherigen Blöcke «Befehle» und «Pendenzen» sind eingeklappt («Alle Befehle und Pendenzen zeigen»).
+- **Pendenzen am Befehl (T512):** Ein aktivierter Befehl bringt je Adressat eine Pendenz mit Frist; die Rückmeldung am Telefon schliesst sie.
+- **Führung über Mesh:** Ist ein Mesh-Gerät verbunden (Android über Bluetooth; das iPhone erreicht kein Mesh-Gerät) und der Mesh-Chat ein, kommt ein Befehl auch ohne Mobilfunk an – als Kurzform mit Nummer, Adressaten, Frist, Auftrag und wenigen Wegpunkten. «Gelesen» und die Rückmeldung gehen über Mesh zurück. Das Mesh-Gerät wird beim Einbinden an die Formation gebunden.
+- **Lageverfolgung aufbauen (T511)** und die Führungskarte ohne Karten (T512) betreffen den Arbeitsplatz.
+
+Nicht am echten Gerät geprüft: Scannen mit der Kamera, die Android-App, das iPhone, ein echtes Mesh-Gerät und die Funkstrecke – geprüft wurde in der nachgestellten Telefon-Ansicht mit nachgestelltem Mesh.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T513-2026-11-16`. Service-Worker-Cache `kocoa-v195-T513-2026-11-16`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T521 (2026-11-18) – Etappen T514–T521: neue Telefon-Darstellung, 3D+ Korrekturen, Fehler der 3D-Karte behoben
+
+Dieser Stand bringt die neue Darstellung aufs Telefon. Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`). Die CONOPS-Werkstatt (T516–T518) ist im Mobil-Bau nicht enthalten.
+
+- **Telefon-Darstellung (T519), schwebende Bedienung:** Rechts (Querformat) bzw. unten (Hochformat) steht nur noch die Hauptleiste. Drei neue Tasten – hoch oben rechts, quer links unter dem Kompass: **Standort**, **Nur Karte** (blendet Leiste, Lupe und Zoom aus und wieder ein) und **Sperre** (ein Antipper sperrt die Karte gegen Berührungen; entsperrt wird durch 1 s Halten auf dem Schloss – Systemgesten wie Wischen vom Rand kann die App nicht aufhalten).
+- **3D und 3D+ über «Karten»:** Das Blatt «Karten» beginnt mit «Ansicht» (2D · 3D · 3D+) und «Beschriftung». Die alten Tasten auf der Karte entfallen. Die «klassische Leiste» (Mehr → Darstellung & Modus) bleibt, wie sie war.
+- **Querformat:** Alle Blätter (Lage, Werkzeuge, Melden, Karten, Mehr, Suche) öffnen als Seitenblatt rechts; die Karte bleibt links sichtbar. «Melden» zeigt alle Meldungen und rollt.
+- **Rückgängig / Wiederholen** erscheinen nur, solange ein Zeichenwerkzeug aktiv ist. Das Statusfeld oben ist einzeilig; die zweite Zeile steht nur mit Bezugsobjekt da.
+- **3D+ geteilt:** fünf grosse Tasten über dem Bild (Basiskarte, Mehr, Standort, Vollbild, Schliessen); Gebäude, Vegetation, Einzeichnungen, Namen, Schnee, Hangneigung und Aufnahme liegen im Menü «Mehr», das vor der Hauptleiste endet (T520). Breiter Griff zwischen Karte und Bild.
+- **3D+ Korrekturen (T514–T516):** Signaturen so gross wie in der Karte, Namen als Beschriftung, verdeckte Signaturen blass, Hangneigung auch in 3D+, Steuerung wie in der 3D-Karte.
+- **Vollbild** schaltet sich nie mehr von selbst ein (T515).
+- **Fehler behoben (T521):** Die 3D-Karte konnte kurz nach dem Öffnen stehen bleiben (Fehlerbericht «undefined is not an object (evaluating 'e.wrap')», danach «Attempting to run(), but is already running»). Ursache war eine Kamerafahrt, die begann, bevor das Gelände geladen war.
+- **Anzeige prüfen:** Mehr → Hilfe → «Anzeige prüfen» zeigt die Masse, mit denen die App rechnet (für den schwarzen Streifen unten am iPhone im Hochformat – der ist noch nicht behoben).
+
+Nicht am echten Gerät geprüft: iPhone und Android-App, Bedienung mit Handschuh und nassem Bildschirm, die Sperre gegen Regentropfen – geprüft wurde in der nachgestellten Telefon-Ansicht (Hochformat 393 × 852, Querformat 852 × 393 und 800 × 360).
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T521-2026-11-18`. Service-Worker-Cache `kocoa-v196-T521-2026-11-18`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

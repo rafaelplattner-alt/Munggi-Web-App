@@ -612,3 +612,17 @@ Dieser Stand bringt die neue Darstellung aufs Telefon. Am Feldserver ändert sic
 Nicht am echten Gerät geprüft: iPhone und Android-App, Bedienung mit Handschuh und nassem Bildschirm, die Sperre gegen Regentropfen – geprüft wurde in der nachgestellten Telefon-Ansicht (Hochformat 393 × 852, Querformat 852 × 393 und 800 × 360).
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T521-2026-11-18`. Service-Worker-Cache `kocoa-v196-T521-2026-11-18`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T522 (2026-11-19) – vier Korrekturen vom Telefon, Fehlerbericht aussagekräftiger
+
+Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **Lawinenbulletin:** Im Fenster steht nur die gewählte Region; «Region wechseln» klappt die Liste auf.
+- **3D+ Namen:** deutlich weniger Namen – wichtige zuerst, keiner über dem andern, keiner unter den Tasten.
+- **Lokalprognose:** Ein Meteo-Pin öffnet immer mit heute; vergangene Tage entfallen. Das Blatt nennt den Modelllauf und warnt bei einem alten Stand («Aktualisieren»). Beim Einschalten der Meteo-Pins wird ein Stand, der älter als drei Stunden ist, neu geholt – vorher blieb ein alter Stand unbemerkt stehen.
+- **Querformat:** Chat, Meldungen und alle anderen Fenster öffnen als Seitenblatt rechts; ⤢ zieht sie über die ganze Breite.
+- **Fehlerbericht:** «Script error.» (Fehler unter der 3D+-Bibliothek vom Netz) bringt neu Meldung und Stelle mit; jeder Vorfall trägt Uhrzeit und Lage (auch: geladene fremde Skripte, Fokus, letztes Ereignis), gleiche Meldungen werden gezählt.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App; die Tastatur über einem Meldungsfenster im Querformat.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T522-2026-11-19`. Service-Worker-Cache `kocoa-v197-T522-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

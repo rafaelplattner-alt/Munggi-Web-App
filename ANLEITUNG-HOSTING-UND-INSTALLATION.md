@@ -639,3 +639,16 @@ Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `
 Nicht am echten Gerät geprüft: iPhone und Android-App.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T523-2026-11-19`. Service-Worker-Cache `kocoa-v198-T523-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T524 (2026-11-19) – 3D+ gibt am Telefon den Speicher frei, jeder Absturz wird gemeldet
+
+Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **3D+ am Telefon:** Zehn Sekunden nach dem Schliessen (und sofort beim Wechsel in den Hintergrund) gibt 3D+ seinen Speicher frei. Bisher blieb die Ansicht bis zum Ende der App im Speicher. Beim nächsten Öffnen baut sie sich neu auf.
+- **Unerwartetes Ende:** Jedes unerwartete Ende im Vordergrund steht beim nächsten Start im Fehlerbericht – auch ohne 3D-Karte –, mit Werkzeug, offenen Fenstern und den letzten Antippern.
+- **Nach einem Neuladen der Seite** (das iPhone tut das nach einem Absturz) standen Auswahlfelder leer oder falsch. Der Browser setzt Formularfelder nicht mehr zurück.
+- **Schwarzer Streifen unten:** erscheint nur nach einem solchen Neuladen. Noch nicht behoben – App ganz schliessen und neu öffnen hilft.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T524-2026-11-19`. Service-Worker-Cache `kocoa-v199-T524-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

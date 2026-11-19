@@ -27,7 +27,7 @@
    welche Version tatsächlich läuft (Service-Worker-Cache!).
    ============================================================ */
 (function(){
-  var BUILD = 'T523-2026-11-19';
+  var BUILD = 'T524-2026-11-19';
   BUILD += '-mobil'; window.__KOCOA_BUILD = BUILD; window.__KOCOA_MOBILE = true;
   var APP_COPYRIGHT = '© Rafael 2026';   /* T238: Urheberrechtsvermerk (Koordinatenleiste, Startbildschirm, Hilfe, Exporte) */
   window.APP_COPYRIGHT = APP_COPYRIGHT;
@@ -14117,7 +14117,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
       <button id="projectNewBtn" class="projectBtn" title="Komplett leeres Projekt öffnen – das aktuelle Projekt wird geschlossen (ungespeicherte Änderungen gehen verloren)">🆕 Neu</button>
       <button id="projectSaveBtn" class="projectBtn" title="Projekt als Datei speichern">💾 Speichern</button>
       <button id="projectLoadBtn" class="projectBtn" title="Projekt aus Datei laden">📂 Laden</button>
-      <input type="file" id="projectLoadInput" accept=".json,application/json" style="display:none;">
+      <input autocomplete="off" type="file" id="projectLoadInput" accept=".json,application/json" style="display:none;">
       <button id="pptxExportBtn" class="projectBtn" title="CONOPS-PowerPoint erstellen: eure Vorlage + eine Lagekarte (aktueller Kartenausschnitt mit allen Signaturen/Zeichnungen/Messungen)">📊 CONOPS-PPT</button>
       <button id="collabBtn" class="projectBtn" title="Mehrplatz-Sitzung im lokalen Netz: gemeinsam am gleichen Dokument arbeiten (Hosten oder Beitreten)" onclick="collabOpenDialog()">🤝 Sitzung</button>
       <button id="fullscreenBtn" class="projectBtn" title="Vollbild ein-/ausschalten">⛶ Vollbild</button>
@@ -14171,13 +14171,13 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
     <div id="globalViewCtrls">
       <button id="attrsGlobalBtn" class="attrsGlobalBtn" onclick="cycleAttrsGlobalMode()" title="KOCOA-Eigenschaften auf der Karte: Auto (pro Objekt) → Alle einblenden → Alle ausblenden">⭐ KOCOA-Bewertung: Auto</button>
       <label class="formScaleLabel" title="Grösse aller platzierten Formationen und Punktsignaturen gleichzeitig anpassen">
-        Signaturen <input type="range" id="formScaleRange" min="0.4" max="2.5" step="0.1" value="1"><span id="formScaleVal">100%</span>
+        Signaturen <input autocomplete="off" type="range" id="formScaleRange" min="0.4" max="2.5" step="0.1" value="1"><span id="formScaleVal">100%</span>
       </label>
       <label class="formFillLabel" title="Darstellung der APP-6-Formationen: Rahmen in Zugehörigkeitsfarbe gefüllt (wie SitaWare) oder nur farbige Linien">
-        APP-6 <select id="formFillSel"><option value="filled">gefüllt</option><option value="outline">Linie</option></select>
+        APP-6 <select autocomplete="off" id="formFillSel"><option value="filled">gefüllt</option><option value="outline">Linie</option></select>
       </label>
       <label class="formScaleLabel" title="Liniendicke aller linienhaften Signaturen gleichzeitig anpassen – Pfeilspitzen und Endpunkte skalieren mit">
-        Linien <input type="range" id="lineScaleRange" min="0.4" max="2.5" step="0.1" value="1"><span id="lineScaleVal">100%</span>
+        Linien <input autocomplete="off" type="range" id="lineScaleRange" min="0.4" max="2.5" step="0.1" value="1"><span id="lineScaleVal">100%</span>
       </label>
     </div>
     <span id="svcStatus" title="Erreichbarkeit der Online-Dienste (Klick: neu prüfen)" style="display:inline-flex;gap:5px;align-items:center;cursor:pointer;padding:0 6px;">
@@ -14210,17 +14210,17 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
         <div style="display:flex;gap:6px;margin-top:6px;">
           <button id="exportCategoryJsonBtn" class="exportPdfBtn" style="flex:1;margin-top:0;" onclick="exportProjectByCategory(currentKocoa)">⤓ Kategorie exportieren</button>
           <button id="importCategoryJsonBtn" class="exportPdfBtn" style="flex:1;margin-top:0;" onclick="document.getElementById('importCategoryInput').click()">⤒ Kategorie importieren</button>
-          <input type="file" id="importCategoryInput" accept=".json" style="display:none;">
+          <input autocomplete="off" type="file" id="importCategoryInput" accept=".json" style="display:none;">
         </div>
         <label id="autoFreezeRow" title="Objekte auf nicht-aktiven Ebenen sind automatisch fixiert (kein Verschieben, keine Stützpunkt-Bearbeitung) – bearbeitet wird nur die aktive Ebene. Fenster/Infos bleiben per Klick erreichbar.">
-          <input type="checkbox" id="autoFreezeChk" checked> 🔒 <span>Nur aktive Ebene bearbeitbar</span>
+          <input autocomplete="off" type="checkbox" id="autoFreezeChk" checked> 🔒 <span>Nur aktive Ebene bearbeitbar</span>
         </label>
 
         <div id="kocoaTreeContainer"></div>
 
         <div class="docSection">
           <div>Dokumentation:</div>
-          <textarea id="kocoaDoc"></textarea>
+          <textarea autocomplete="off" id="kocoaDoc"></textarea>
         </div>
       </div>
     </div>
@@ -14247,7 +14247,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
           <div class="rsLegRow"><span class="rsLegSwatch" style="background:#e67e22;height:10px;"></span> 30–58 % · nur zu Fuss / Raupe</div>
           <div class="rsLegRow"><span class="rsLegSwatch" style="background:#e74c3c;height:10px;"></span> 30–45° · sehr steil, lawinenrelevant</div>
           <div class="rsLegRow"><span class="rsLegSwatch" style="background:#7d28a0;height:10px;"></span> &gt;45° · extrem (Absturzgefahr)</div>
-          <div class="rsLegRow" style="margin-top:4px;"><label style="font-size:11px;color:#bbb;display:flex;align-items:center;gap:6px;">Deckkraft <input type="range" id="slopeScanOp" min="10" max="100" value="70" style="width:80px;"></label></div>
+          <div class="rsLegRow" style="margin-top:4px;"><label style="font-size:11px;color:#bbb;display:flex;align-items:center;gap:6px;">Deckkraft <input autocomplete="off" type="range" id="slopeScanOp" min="10" max="100" value="70" style="width:80px;"></label></div>
           <div class="rsLegMeta" id="slopeLegMeta"></div>
         </div>
         <div id="chokeLegend">
@@ -14282,7 +14282,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
         <div class="map3dHeader">
           <div class="map3dHeaderLeft">
             <span>3D-Karte</span>
-            <select id="map3dBase" title="Basiskarte der 3D-Ansicht" style="background:#222;color:#ddd;border:1px solid #555;border-radius:4px;font-size:11px;padding:2px 4px;">
+            <select autocomplete="off" id="map3dBase" title="Basiskarte der 3D-Ansicht" style="background:#222;color:#ddd;border:1px solid #555;border-radius:4px;font-size:11px;padding:2px 4px;">
               <option value="swissimage">Satellit (SwissImage)</option>
               <option value="farbe">Landeskarte Farbe</option>
               <option value="grau">Landeskarte Grau</option>
@@ -14311,17 +14311,17 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
       <div id="c3dWrapper" class="mapPane">
         <div id="c3dHeader">
           <span style="font-weight:600;white-space:nowrap;">🏙 3D+</span>
-          <select id="c3dBase" title="Basiskarte über dem Gelände">
+          <select autocomplete="off" id="c3dBase" title="Basiskarte über dem Gelände">
             <option value="swissimage">Luftbild (SwissImage)</option>
             <option value="farbe">Landeskarte Farbe</option>
             <option value="grau">Landeskarte Grau</option>
             <option value="winter">Landeskarte Winter ❄</option>
             <option value="tlm">Landeskarte ohne Koordinatennetz</option>
           </select>
-          <label title="Alle Schweizer Gebäude als 3D-Modelle mit Dachformen (swissBUILDINGS3D)"><input type="checkbox" id="c3dBldg" checked> 🏠 Gebäude</label>
-          <label title="Einzelbäume und Wald als 3D-Objekte – grosse Datenmenge"><input type="checkbox" id="c3dVeg"> 🌲 Vegetation</label>
-          <label title="Ortschaften, Gipfel und Gewässer beschriften (swissNAMES3D)"><input type="checkbox" id="c3dNames"> 🏷 Namen</label>
-          <label title="Eigene Einzeichnungen (Routen, Linien, Flächen, Kreise, Messungen, SpotMap-Taufen) aus der 2D-Karte über das Gelände legen – wird automatisch nachgeführt"><input type="checkbox" id="c3dObj" checked> ✏ Einzeichnungen</label>
+          <label title="Alle Schweizer Gebäude als 3D-Modelle mit Dachformen (swissBUILDINGS3D)"><input autocomplete="off" type="checkbox" id="c3dBldg" checked> 🏠 Gebäude</label>
+          <label title="Einzelbäume und Wald als 3D-Objekte – grosse Datenmenge"><input autocomplete="off" type="checkbox" id="c3dVeg"> 🌲 Vegetation</label>
+          <label title="Ortschaften, Gipfel und Gewässer beschriften (swissNAMES3D)"><input autocomplete="off" type="checkbox" id="c3dNames"> 🏷 Namen</label>
+          <label title="Eigene Einzeichnungen (Routen, Linien, Flächen, Kreise, Messungen, SpotMap-Taufen) aus der 2D-Karte über das Gelände legen – wird automatisch nachgeführt"><input autocomplete="off" type="checkbox" id="c3dObj" checked> ✏ Einzeichnungen</label>
           <span id="c3dStatus"></span>
           <span class="c3dHint">Linke Maustaste: schwenken · Rechte Maustaste ziehen (oder Strg+Ziehen): Blickwinkel &amp; Himmelsrichtung</span>
           <button id="c3dGoto" type="button" title="Zur aktuellen 2D-Kartenposition fliegen">🎯</button>
@@ -14357,38 +14357,38 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
           <h3 onclick="toggleToolSection(this)">Karten<svg class="toolSectionIcon" viewBox="0 0 24 24"><path d="M8 5l8 7-8 7"/></svg></h3>
           <div class="bmWrap" style="padding:2px 2px 8px;">
             <div style="display:flex;gap:5px;margin-bottom:5px;">
-              <input type="text" id="bmNameInput" placeholder="📌 Lesezeichen-Name (z.B. «AO Nord»)…" style="flex:1;min-width:0;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 6px;font-size:12px;">
+              <input autocomplete="off" type="text" id="bmNameInput" placeholder="📌 Lesezeichen-Name (z.B. «AO Nord»)…" style="flex:1;min-width:0;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:4px 6px;font-size:12px;">
               <button id="bmSaveBtn" class="projectBtn" title="Aktuellen Kartenausschnitt (Position + Zoom) als Lesezeichen speichern">📌 Merken</button>
             </div>
             <div id="bmList" style="font-size:12px;"></div>
           </div>
           <ul id="mapLayerList">
-            <li><input type="checkbox" id="mapFarbe" checked> Schweizer Landeskarte</li>
-            <li><input type="checkbox" id="mapGrau"> Landeskarte Grau</li>
-            <li><input type="checkbox" id="mapSwissimage"> SwissImage</li>
-            <li><input type="checkbox" id="mapWinter"> Landeskarte Winter</li>
-            <li><input type="checkbox" id="mapTlm" title="swissTLM-Karte: Landeskarten-Darstellung OHNE Kilometernetz (© swisstopo)"> Landeskarte ohne Koordinatennetz</li>
-            <li><input type="checkbox" id="mapNames" title="Orts-, Gipfel-, Gewässer- und Flurnamen (SwissNames3D) ein-/ausblenden – auf jeder Basiskarte (auch SwissImage) und in der 3D-Ansicht · offline über das Vektorpaket «Geländenamen»"> 🏷 Beschriftung (Orte · Gipfel · Gewässer)</li>
-            <li><input type="checkbox" id="mapSlope"> Hangneigung <input type="range" id="mapSlopeOp" min="10" max="100" value="40" title="Deckkraft der Hangneigungskarte" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
-            <li><input type="checkbox" id="mapSkitouren"> Skitourenkarte</li>
-            <li title="Wildruhezonen und Wildtierschutzgebiete (BAFU und Kantone)"><input type="checkbox" id="mapWrz"> Wildruhezonen</li>
-            <li><input type="checkbox" id="mapWanderwege" title="Signalisierte Wanderwege: gelb = Wanderweg, weiss-rot-weiss = Bergwanderweg, weiss-blau-weiss = Alpinwanderweg (© swisstopo)"> Wanderwege (inkl. Alpinrouten)</li>
-            <li><input type="checkbox" id="mapCat"> CAT – Thematisches Lawinengelände <input type="range" id="mapCatOp" min="10" max="100" value="75" title="Deckkraft CAT" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
-            <li><input type="checkbox" id="mapAth"> ATH – Gefährdung Lawinengelände <input type="range" id="mapAthOp" min="10" max="100" value="75" title="Deckkraft ATH" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
-            <li><input type="checkbox" id="mapAvalBulletin" title="Aktuelles Lawinenbulletin des SLF: Gefahrenregionen mit Stufe 1–5, Kernexpositionen und Höhenlagen · wird beim Einschalten geladen und für Offline-Einsatz zwischengespeichert"> ⚠ Lawinenbulletin (SLF, aktuell)</li>
-            <li><input type="checkbox" id="mapImis" title="IMIS-Messstationen des SLF: Schneehöhe, Temperatur, Wind – Klick auf Station lädt die aktuellsten Messwerte"> 🌨 SLF-Messstationen</li>
-            <li><input type="checkbox" id="mapWebcams" title="Wetterkameras von MeteoSchweiz (offene Bundesdaten, 36 Stationen mit 360°-Panorama) · Klick auf eine Kamera zeigt das aktuelle Bild, «Bild ins Projekt» sichert einen Schnappschuss – NUR ONLINE"> 📷 Wetterkameras (MeteoSchweiz) <span class="mapOnlineTag">online</span></li>
-            <li><input type="checkbox" id="mapDrohnen" title="Geografische UAS-Gebiete (BAZL) · Klick auf ein Gebiet zeigt die geltenden Einschränkungen (online)"> Einschränkungen für Drohnen <span class="mapInfoTag">ℹ</span></li>
-            <li><input type="checkbox" id="mapIcao"> Luftfahrtkarte ICAO</li>
+            <li><input autocomplete="off" type="checkbox" id="mapFarbe" checked> Schweizer Landeskarte</li>
+            <li><input autocomplete="off" type="checkbox" id="mapGrau"> Landeskarte Grau</li>
+            <li><input autocomplete="off" type="checkbox" id="mapSwissimage"> SwissImage</li>
+            <li><input autocomplete="off" type="checkbox" id="mapWinter"> Landeskarte Winter</li>
+            <li><input autocomplete="off" type="checkbox" id="mapTlm" title="swissTLM-Karte: Landeskarten-Darstellung OHNE Kilometernetz (© swisstopo)"> Landeskarte ohne Koordinatennetz</li>
+            <li><input autocomplete="off" type="checkbox" id="mapNames" title="Orts-, Gipfel-, Gewässer- und Flurnamen (SwissNames3D) ein-/ausblenden – auf jeder Basiskarte (auch SwissImage) und in der 3D-Ansicht · offline über das Vektorpaket «Geländenamen»"> 🏷 Beschriftung (Orte · Gipfel · Gewässer)</li>
+            <li><input autocomplete="off" type="checkbox" id="mapSlope"> Hangneigung <input autocomplete="off" type="range" id="mapSlopeOp" min="10" max="100" value="40" title="Deckkraft der Hangneigungskarte" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
+            <li><input autocomplete="off" type="checkbox" id="mapSkitouren"> Skitourenkarte</li>
+            <li title="Wildruhezonen und Wildtierschutzgebiete (BAFU und Kantone)"><input autocomplete="off" type="checkbox" id="mapWrz"> Wildruhezonen</li>
+            <li><input autocomplete="off" type="checkbox" id="mapWanderwege" title="Signalisierte Wanderwege: gelb = Wanderweg, weiss-rot-weiss = Bergwanderweg, weiss-blau-weiss = Alpinwanderweg (© swisstopo)"> Wanderwege (inkl. Alpinrouten)</li>
+            <li><input autocomplete="off" type="checkbox" id="mapCat"> CAT – Thematisches Lawinengelände <input autocomplete="off" type="range" id="mapCatOp" min="10" max="100" value="75" title="Deckkraft CAT" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
+            <li><input autocomplete="off" type="checkbox" id="mapAth"> ATH – Gefährdung Lawinengelände <input autocomplete="off" type="range" id="mapAthOp" min="10" max="100" value="75" title="Deckkraft ATH" style="width:64px;vertical-align:middle;margin-left:6px;"></li>
+            <li><input autocomplete="off" type="checkbox" id="mapAvalBulletin" title="Aktuelles Lawinenbulletin des SLF: Gefahrenregionen mit Stufe 1–5, Kernexpositionen und Höhenlagen · wird beim Einschalten geladen und für Offline-Einsatz zwischengespeichert"> ⚠ Lawinenbulletin (SLF, aktuell)</li>
+            <li><input autocomplete="off" type="checkbox" id="mapImis" title="IMIS-Messstationen des SLF: Schneehöhe, Temperatur, Wind – Klick auf Station lädt die aktuellsten Messwerte"> 🌨 SLF-Messstationen</li>
+            <li><input autocomplete="off" type="checkbox" id="mapWebcams" title="Wetterkameras von MeteoSchweiz (offene Bundesdaten, 36 Stationen mit 360°-Panorama) · Klick auf eine Kamera zeigt das aktuelle Bild, «Bild ins Projekt» sichert einen Schnappschuss – NUR ONLINE"> 📷 Wetterkameras (MeteoSchweiz) <span class="mapOnlineTag">online</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapDrohnen" title="Geografische UAS-Gebiete (BAZL) · Klick auf ein Gebiet zeigt die geltenden Einschränkungen (online)"> Einschränkungen für Drohnen <span class="mapInfoTag">ℹ</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapIcao"> Luftfahrtkarte ICAO</li>
             <li class="mapListSection">🪖 Armee &amp; Luftraum <span class="mapInfoHint" title="Ebenen mit ℹ zeigen beim Klick auf ein Objekt dessen Informationen (online)">ℹ = Klick-Info</span></li>
-            <li><input type="checkbox" id="mapUnterkuenfte" title="Unterkunftsstandorte für die Wintersaison (swisstopo/SAC) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> 🏠 Unterkünfte Winter <span class="mapInfoTag">ℹ</span></li>
-            <li><input type="checkbox" id="mapLogRaeume" title="Logistikräume der Armeelogistikcenter (VBS)"> 📦 Logistikräume Armee</li>
-            <li><input type="checkbox" id="mapAlc" title="Armeelogistikcenter ALC (VBS) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> 🏭 Armeelogistikcenter ALC <span class="mapInfoTag">ℹ</span></li>
-            <li><input type="checkbox" id="mapSchiess" title="Publizierte Schiessanzeigen und Gefahrenzonen der Schweizer Armee – tagesaktuell, NUR ONLINE · Klick auf ein Gebiet zeigt Anlass, Zeiten und Warnhinweise"> 🎯 Schiessanzeigen &amp; Gefahrenzonen <span class="mapInfoTag">ℹ</span><span class="mapOnlineTag">online</span></li>
-            <li><input type="checkbox" id="mapBebeco" title="Bundestankstellen BEBECO (Schweizer Armee) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> ⛽ Bundestankstellen BEBECO <span class="mapInfoTag">ℹ</span></li>
-            <li><input type="checkbox" id="mapTerrDiv" title="Territorialdivisionen der Schweizer Armee (VBS)"> 🗾 Territorialdivisionen</li>
-            <li><input type="checkbox" id="mapUas" title="UAS-Aktivitätszonen Schweiz (BAZL) – genehmigte Drohnen-Betriebszonen, NUR ONLINE · Klick auf ein Gebiet zeigt die Zoneninformationen"> 🛸 UAS-Aktivitätszonen (BAZL) <span class="mapInfoTag">ℹ</span><span class="mapOnlineTag">online</span></li>
-            <li><input type="checkbox" id="map3dToggle"> 3D-Karte (Relief – Basiskarte wählbar, inkl. Winter)</li>
+            <li><input autocomplete="off" type="checkbox" id="mapUnterkuenfte" title="Unterkunftsstandorte für die Wintersaison (swisstopo/SAC) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> 🏠 Unterkünfte Winter <span class="mapInfoTag">ℹ</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapLogRaeume" title="Logistikräume der Armeelogistikcenter (VBS)"> 📦 Logistikräume Armee</li>
+            <li><input autocomplete="off" type="checkbox" id="mapAlc" title="Armeelogistikcenter ALC (VBS) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> 🏭 Armeelogistikcenter ALC <span class="mapInfoTag">ℹ</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapSchiess" title="Publizierte Schiessanzeigen und Gefahrenzonen der Schweizer Armee – tagesaktuell, NUR ONLINE · Klick auf ein Gebiet zeigt Anlass, Zeiten und Warnhinweise"> 🎯 Schiessanzeigen &amp; Gefahrenzonen <span class="mapInfoTag">ℹ</span><span class="mapOnlineTag">online</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapBebeco" title="Bundestankstellen BEBECO (Schweizer Armee) · Klick auf ein Objekt zeigt die Objektinformationen (online)"> ⛽ Bundestankstellen BEBECO <span class="mapInfoTag">ℹ</span></li>
+            <li><input autocomplete="off" type="checkbox" id="mapTerrDiv" title="Territorialdivisionen der Schweizer Armee (VBS)"> 🗾 Territorialdivisionen</li>
+            <li><input autocomplete="off" type="checkbox" id="mapUas" title="UAS-Aktivitätszonen Schweiz (BAZL) – genehmigte Drohnen-Betriebszonen, NUR ONLINE · Klick auf ein Gebiet zeigt die Zoneninformationen"> 🛸 UAS-Aktivitätszonen (BAZL) <span class="mapInfoTag">ℹ</span><span class="mapOnlineTag">online</span></li>
+            <li><input autocomplete="off" type="checkbox" id="map3dToggle"> 3D-Karte (Relief – Basiskarte wählbar, inkl. Winter)</li>
           </ul>
         </div>
 
@@ -14455,7 +14455,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow">
                 <div class="roadScanCtrls">
                   <label for="roadVehicleSelect" title="Fahrzeug für die Ausschnitt-Einfärbung">Fahrzeug:</label>
-                  <select id="roadVehicleSelect"></select>
+                  <select autocomplete="off" id="roadVehicleSelect"></select>
                 </div>
                 <div class="roadScanBtns">
                   <button id="roadScanBtn" title="Alle Strassen/Wege im aktuellen Kartenausschnitt nach Passierbarkeit für das gewählte Fahrzeug einfärben">🗺 Strassen prüfen</button>
@@ -14466,19 +14466,19 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow">
                 <div class="roadScanCtrls">
                   <label for="lzHeliSelect" title="Helikoptertyp bestimmt Mindestfläche und zulässige Hangneigung">🚁 LZ:</label>
-                  <select id="lzHeliSelect"></select>
+                  <select autocomplete="off" id="lzHeliSelect"></select>
                 </div>
                 <div id="lzFreiRow" style="margin-bottom:6px;">
-                  <div class="roadScanCtrls"><label title="Benötigter hindernisfreier Durchmesser">Ø min (m)</label><input type="number" id="lzMinDiam" value="35" min="10" max="120" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
-                  <div class="roadScanCtrls"><label title="Maximal zulässige Hangneigung zum Aufsetzen – auf eigene Erfahrung kalibrierbar">max ° Neigung</label><input type="number" id="lzMaxSlope" value="7" min="1" max="25" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                  <div class="roadScanCtrls"><label title="Benötigter hindernisfreier Durchmesser">Ø min (m)</label><input autocomplete="off" type="number" id="lzMinDiam" value="35" min="10" max="120" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                  <div class="roadScanCtrls"><label title="Maximal zulässige Hangneigung zum Aufsetzen – auf eigene Erfahrung kalibrierbar">max ° Neigung</label><input autocomplete="off" type="number" id="lzMaxSlope" value="7" min="1" max="25" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
                 </div>
                 <div class="lzExclBox">
                   <div style="font-size:11px;color:#9fb4c7;margin-bottom:3px;">Ausschliessen (Online):</div>
-                  <label class="lzExclChk"><input type="checkbox" id="lzExWater" checked> 💧 Gewässer</label>
-                  <label class="lzExclChk"><input type="checkbox" id="lzExForest" checked> 🌲 Wald/Gebüsch</label>
-                  <label class="lzExclChk"><input type="checkbox" id="lzExBuild" checked> 🏠 Gebäude</label>
-                  <label class="lzExclChk"><input type="checkbox" id="lzExObst" checked> 🗼 Luftfahrthindernisse</label>
-                  <div class="roadScanCtrls" style="margin-top:3px;"><label title="Sicherheitsradius um Windräder, Masten, Kabel">Hindernis-Puffer (m)</label><input type="number" id="lzObstBuffer" value="120" min="0" max="500" step="10" style="width:64px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                  <label class="lzExclChk"><input autocomplete="off" type="checkbox" id="lzExWater" checked> 💧 Gewässer</label>
+                  <label class="lzExclChk"><input autocomplete="off" type="checkbox" id="lzExForest" checked> 🌲 Wald/Gebüsch</label>
+                  <label class="lzExclChk"><input autocomplete="off" type="checkbox" id="lzExBuild" checked> 🏠 Gebäude</label>
+                  <label class="lzExclChk"><input autocomplete="off" type="checkbox" id="lzExObst" checked> 🗼 Luftfahrthindernisse</label>
+                  <div class="roadScanCtrls" style="margin-top:3px;"><label title="Sicherheitsradius um Windräder, Masten, Kabel">Hindernis-Puffer (m)</label><input autocomplete="off" type="number" id="lzObstBuffer" value="120" min="0" max="500" step="10" style="width:64px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
                 </div>
                 <div class="roadScanBtns">
                   <button id="lzScanBtn" title="Im Ausschnitt geeignete Landezonen suchen (flach & gross genug, Hindernisse ausgeschlossen)">🚁 LZ suchen</button>
@@ -14489,8 +14489,8 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="drawToolItem" data-tool="lzprecise" title="Hochaufgelöste Landezonen-Prüfung um einen Klickpunkt mit swissALTI3D (2 m)">🎯 LZ-Präzise (swissALTI3D 2 m)</li>
               <li class="roadScanRow">
                 <div class="roadScanHint" style="margin-bottom:5px;">Nutzt die Werte oben (Helikopter · Ø&nbsp;min · max&nbsp;° Neigung · Ausschlüsse). Danach einen Punkt auf der Karte anklicken → präzise Prüfung im Umkreis mit swissALTI3D&nbsp;2&nbsp;m (nur online, deutlich genauer als «LZ&nbsp;suchen»).</div>
-                <div class="roadScanCtrls"><label title="Kantenlänge des geprüften Quadrats um den Klickpunkt">Gebiet (m)</label><input type="number" id="lzpArea" value="300" min="100" max="600" step="50" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
-                <div class="roadScanCtrls"><label title="Rasterweite der Höhenabtastung – feiner = genauer, aber mehr Abfragen">Raster (m)</label><input type="number" id="lzpRes" value="5" min="2" max="10" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                <div class="roadScanCtrls"><label title="Kantenlänge des geprüften Quadrats um den Klickpunkt">Gebiet (m)</label><input autocomplete="off" type="number" id="lzpArea" value="300" min="100" max="600" step="50" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                <div class="roadScanCtrls"><label title="Rasterweite der Höhenabtastung – feiner = genauer, aber mehr Abfragen">Raster (m)</label><input autocomplete="off" type="number" id="lzpRes" value="5" min="2" max="10" step="1" style="width:70px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
                 <div class="roadScanBtns">
                   <button id="lzpArmBtn" title="Werkzeug aktivieren – danach den gewünschten Bereich auf der Karte anklicken">🎯 Punkt wählen</button>
                   <button id="lzpClearBtn" title="Ergebnis entfernen">✕ Entfernen</button>
@@ -14503,7 +14503,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow">
                 <div class="roadScanCtrls">
                   <label for="isoModeSelect" title="Fortbewegungsart">Modus:</label>
-                  <select id="isoModeSelect">
+                  <select autocomplete="off" id="isoModeSelect">
                     <option value="fuss">Zu Fuss (Sommer)</option>
                     <option value="ski">Tourenski (Winter)</option>
                     <option value="fahrzeug">Fahrzeug (Strasse)</option>
@@ -14511,9 +14511,9 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 </div>
                 <div class="roadScanCtrls">
                   <label for="isoMaxTime" title="Grösste Zeitstufe">Max. Zeit</label>
-                  <select id="isoMaxTime"><option value="30">30 min</option><option value="60" selected>60 min</option><option value="90">90 min</option><option value="120">120 min</option></select>
+                  <select autocomplete="off" id="isoMaxTime"><option value="30">30 min</option><option value="60" selected>60 min</option><option value="90">90 min</option><option value="120">120 min</option></select>
                 </div>
-                <div class="roadScanCtrls" id="isoSpeedRow" style="display:none;"><label>km/h</label><input type="number" id="isoVehSpeed" value="30" min="5" max="90" step="5" style="width:64px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
+                <div class="roadScanCtrls" id="isoSpeedRow" style="display:none;"><label>km/h</label><input autocomplete="off" type="number" id="isoVehSpeed" value="30" min="5" max="90" step="5" style="width:64px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;"></div>
                 <div class="roadScanBtns"><button id="isoClearBtn" title="Isochronen entfernen">✕ Entfernen</button></div>
                 <div class="roadScanHint">Werkzeug wählen, dann Startpunkt auf Karte klicken · Höhen offline · Wegnetz braucht Online-Modus</div>
               </li>
@@ -14566,7 +14566,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow">
                 <div class="roadScanCtrls">
                   <label for="verhWxDate" title="Datum für Sonnen-/Dämmerungszeiten und die hervorgehobene Prognose">Planungsdatum</label>
-                  <input type="date" id="verhWxDate" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;">
+                  <input autocomplete="off" type="date" id="verhWxDate" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;">
                 </div>
                 <div id="verhWxOut" style="display:none;font-size:12px;margin:6px 0 4px;"></div>
                 <div class="roadScanBtns" id="verhWxActions" style="display:none;">
@@ -14587,16 +14587,16 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">🗺 Führungsraster</b></div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
                   <label title="Laufnummer der MSN – bestimmt die ersten zwei Buchstaben der Spaltencodes (MSN 1 = AA…, MSN 2 = AB…)">MSN-Nr
-                    <input type="number" id="frMsnNum" min="1" max="676" value="1" style="width:56px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <input autocomplete="off" type="number" id="frMsnNum" min="1" max="676" value="1" style="width:56px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                   </label>
                   <span id="frMsnPreview" style="color:#8fd6b0;font-weight:bold;"></span>
                 </div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
                   <label title="Bezeichnung der MSN für die Kopfzeile, z.B. die Spotmap-Nummer – erscheint als MSN «…» auf dem Export">MSN-Bezeichnung
-                    <input type="text" id="frMsnName" placeholder="z.B. 5480" style="width:90px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <input autocomplete="off" type="text" id="frMsnName" placeholder="z.B. 5480" style="width:90px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                   </label>
                   <label title="Hintergrundkarte für den PPTX-Export">Export-Karte
-                    <select id="frMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <select autocomplete="off" id="frMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                       <option value="swissimage">Luftbild (SwissImage)</option>
                       <option value="landeskarte">Schweizer Landeskarte (Koordinatennetz wird entfernt)</option>
                       <option value="tlm">swissTLM-Karte (ohne Netz)</option>
@@ -14605,13 +14605,13 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 </div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
                   <label>Zeilen
-                    <select id="frMode" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <select autocomplete="off" id="frMode" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                       <option value="weit">Weit (20–32)</option>
                       <option value="nah">Nah (1–13)</option>
                     </select>
                   </label>
                   <label>Klassifizierung
-                    <select id="frClass" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <select autocomplete="off" id="frClass" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                       <option>INTERN</option>
                       <option>VERTRAULICH</option>
                       <option>GEHEIM</option>
@@ -14628,11 +14628,11 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">📌 SpotMap (Geländetaufe)</b></div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
                   <label>MSN-Bezeichnung
-                    <input type="text" id="smNameInput" placeholder="z.B. MSN1902" style="width:96px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <input autocomplete="off" type="text" id="smNameInput" placeholder="z.B. MSN1902" style="width:96px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                   </label>
                   <button id="smNewBtn" class="projectBtn" title="Neue SpotMap anlegen – danach mit den Tauf-Werkzeugen unten zeichnen">➕ SpotMap anlegen</button>
                   <label title="Hintergrundkarte für den PPTX-Export der SpotMap (T173)">Export-Karte
-                    <select id="smMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <select autocomplete="off" id="smMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                       <option value="swissimage">Luftbild (SwissImage)</option>
                       <option value="landeskarte">Landeskarte (ohne Koordinatennetz)</option>
                       <option value="pixelkarte">Landeskarte (mit Koordinatennetz)</option>
@@ -14653,12 +14653,12 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">🏙 Fassadenbezeichnung</b></div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
                   <label title="Hintergrundkarte für den PowerPoint-Export der Fassadenbezeichnung">Export-Karte
-                    <select id="hokMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
+                    <select autocomplete="off" id="hokMapSel" style="background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:4px;">
                       <option value="swissimage">Luftbild (SwissImage)</option>
                       <option value="landeskarte">Landeskarte</option>
                     </select>
                   </label>
-                  <label title="Ist das 3D+-Fenster offen, wird je Gebäude eine Ansicht aus der Angriffsrichtung aufgenommen"><input type="checkbox" id="hok3dChk" checked> 3D-Ansicht (3D+ offen)</label>
+                  <label title="Ist das 3D+-Fenster offen, wird je Gebäude eine Ansicht aus der Angriffsrichtung aufgenommen"><input autocomplete="off" type="checkbox" id="hok3dChk" checked> 3D-Ansicht (3D+ offen)</label>
                 </div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
                   <button id="hokPptBtn" class="projectBtn" type="button" title="Fassadenbezeichnung als PowerPoint: Übersicht, je Gebäude Plan mit Fassaden und Öffnungen, Tabelle der Bezeichnungen">📊 PPTX</button>
@@ -14670,9 +14670,9 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow" id="msgRow">
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">📨 Meldungen (NATO-Formulare)</b></div>
                 <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
-                  <label>Callsign <input type="text" id="msgDefCs" placeholder="z.B. METAL 41" style="width:88px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
-                  <label>Freq <input type="text" id="msgDefFq" placeholder="Kanal/Freq" style="width:74px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
-                  <label>Unit <input type="text" id="msgDefUnit" placeholder="Einheit" style="width:84px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
+                  <label>Callsign <input autocomplete="off" type="text" id="msgDefCs" placeholder="z.B. METAL 41" style="width:88px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
+                  <label>Freq <input autocomplete="off" type="text" id="msgDefFq" placeholder="Kanal/Freq" style="width:74px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
+                  <label>Unit <input autocomplete="off" type="text" id="msgDefUnit" placeholder="Einheit" style="width:84px;background:#1f1f1f;color:#ddd;border:1px solid #444;border-radius:4px;padding:3px 5px;font-size:12px;margin-left:3px;"></label>
                 </div>
                 <div class="roadScanBtns">
                   <button id="msgNlBtn" title="MEDEVAC-Anforderung nach NATO STANAG 2087 – mit Auto-Vorbefüllung von Position und DTG">🚑 9-Line MEDEVAC</button>
@@ -14683,7 +14683,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow" id="kmlExportRow">
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">🌍 Export für Führungssysteme (KML/KMZ)</b></div>
                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:5px 0;font-size:12px;color:#cfe0ef;">
-                  <label title="Ausgeblendete Arbeitsebenen weglassen (sonst werden sie mit Sichtbarkeit «aus» exportiert)"><input type="checkbox" id="kmlOnlyVisible"> nur sichtbare Ebenen</label>
+                  <label title="Ausgeblendete Arbeitsebenen weglassen (sonst werden sie mit Sichtbarkeit «aus» exportiert)"><input autocomplete="off" type="checkbox" id="kmlOnlyVisible"> nur sichtbare Ebenen</label>
                 </div>
                 <div class="roadScanBtns">
                   <button id="kmlExportKmzBtn" title="KMZ-Paket: Geometrien + Signaturen als Bilder + Sichtfelder/Funkabdeckung/Beobachtungsnetz als Bodenüberlagerung – für KADAS, SitaWare, Google Earth, QGIS">📦 KMZ exportieren</button>
@@ -14704,7 +14704,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
               <li class="roadScanRow" style="padding-top:2px;"><div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">Planen</b></div></li>
               <li class="drawToolItem" data-tool="routefollow" title="Ein Werkzeug für alles: Wegpunkte klicken, der Modus (Weg folgen · Skitour · Fahrzeug · Frei) ist jederzeit unten auf der Karte oder mit Taste W umschaltbar – auch mitten in der Route">🥾 Route planen (Weg · Skitour · Fahrzeug · Frei)</li>
               <li class="gpxImportItem" id="gpxImportBtn">📥 Route aus GPX importieren</li>
-              <input type="file" id="gpxImportInput" accept=".gpx,application/gpx+xml" style="display:none;">
+              <input autocomplete="off" type="file" id="gpxImportInput" accept=".gpx,application/gpx+xml" style="display:none;">
               <li class="roadScanRow">
                 <div class="roadScanCtrls"><b style="font-size:12px;color:#bbb;">Meine Routen</b></div>
                 <div id="routeListBody"></div>
@@ -14717,13 +14717,13 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
                 </div>
                 <div class="roadScanCtrls" style="margin-top:4px;">
                   <label for="routePdfOrient" title="Ausrichtung des Kartenblatts (Seite 1) im Routen-PDF">Kartenblatt</label>
-                  <select id="routePdfOrient">
+                  <select autocomplete="off" id="routePdfOrient">
                     <option value="hoch" selected>Hochformat</option>
                     <option value="quer">Querformat</option>
                   </select>
                 </div>
-                <label class="lzExclChk" style="display:block;" title="Basiskarte im Kartenblatt aufhellen – Route, Wegpunkte und eingeblendete Ebenen bleiben kräftig"><input type="checkbox" id="routePdfFade"> Karte blasser drucken (Route hervorheben)</label>
-                <label class="lzExclChk" style="display:block;" title="Dritte Seite im Routen-PDF: Lawinen-Check, Wetterlage an Start/höchstem Punkt/Ziel, nächste SLF-Messstationen und Sonnen-/Dämmerungszeiten – mit Abruf-Zeitstempel"><input type="checkbox" id="routePdfVerh"> 🌦 Verhältnisse-Seite beilegen (Lawinen · Wetter · Sonnenzeiten)</label>
+                <label class="lzExclChk" style="display:block;" title="Basiskarte im Kartenblatt aufhellen – Route, Wegpunkte und eingeblendete Ebenen bleiben kräftig"><input autocomplete="off" type="checkbox" id="routePdfFade"> Karte blasser drucken (Route hervorheben)</label>
+                <label class="lzExclChk" style="display:block;" title="Dritte Seite im Routen-PDF: Lawinen-Check, Wetterlage an Start/höchstem Punkt/Ziel, nächste SLF-Messstationen und Sonnen-/Dämmerungszeiten – mit Abruf-Zeitstempel"><input autocomplete="off" type="checkbox" id="routePdfVerh"> 🌦 Verhältnisse-Seite beilegen (Lawinen · Wetter · Sonnenzeiten)</label>
                 <div class="roadScanHint">Das Kartenblatt druckt die AKTIVEN Kartenebenen: Basiskarte + eingeblendete Ebenen wie ⛰ Hangneigung, Skitouren oder CAT/ATH – unter «Karten» einschalten. Offline werden geladene Offline-Pakete genutzt.</div>
               </li>
             </ul>
@@ -14766,8 +14766,8 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
 
             <div class="offlineMapLabel">Detailgrad (Zoomstufen):</div>
             <div class="offlineZoomRow">
-              <label>Von</label><input type="number" id="offlineZoomMin" value="12" min="6" max="19">
-              <label>bis</label><input type="number" id="offlineZoomMax" value="16" min="6" max="19">
+              <label>Von</label><input autocomplete="off" type="number" id="offlineZoomMin" value="12" min="6" max="19">
+              <label>bis</label><input autocomplete="off" type="number" id="offlineZoomMax" value="16" min="6" max="19">
             </div>
 
             <button class="offlineBtn offlineEstimateBtn" id="offlineEstimateBtn">🔍 Grösse schätzen</button>
@@ -14784,7 +14784,7 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
             <div class="offlineMapLabel" style="margin-top:10px;">Bereits heruntergeladene Offline-Karte laden:</div>
             <button class="offlineBtn" id="offlineLoadBtn">📂 Offline-Karte laden</button>
             <button class="offlineBtn" id="offlineQuickReloadBtn" style="display:none;background:#2a5a3a;border-color:#3f8f5f;color:#cfeed9;"></button>
-            <input type="file" id="offlineLoadInput" accept=".kocoamap" style="display:none;">
+            <input autocomplete="off" type="file" id="offlineLoadInput" accept=".kocoamap" style="display:none;">
             <div class="offlineLoadStatus" id="offlineLoadStatus"></div>
 
             <div class="offlineMapLabel" style="margin-top:10px;">Dauerhaft gespeicherte Pakete (werden beim Start automatisch geladen):</div>
@@ -15176,25 +15176,25 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
           <div class="drawStylePanel">
             <div class="dsRow">
               <label for="drawColorInput">Farbe</label>
-              <input type="color" id="drawColorInput">
+              <input autocomplete="off" type="color" id="drawColorInput">
             </div>
             <div class="dsRow">
               <label for="drawWeightInput">Stärke</label>
-              <input type="range" id="drawWeightInput" min="1" max="10" value="3">
+              <input autocomplete="off" type="range" id="drawWeightInput" min="1" max="10" value="3">
               <span id="drawWeightValue">3px</span>
             </div>
             <div class="dsRow" id="drawDashRow">
               <label for="drawDashSelect">Stil</label>
-              <select id="drawDashSelect">
+              <select autocomplete="off" id="drawDashSelect">
                 <option value="solid">Durchgezogen</option>
                 <option value="dashed">Gestrichelt</option>
               </select>
             </div>
             <div class="dsRow" id="drawArrowRow">
-              <label><input type="checkbox" id="drawArrowInput"> Pfeilspitze</label>
+              <label><input autocomplete="off" type="checkbox" id="drawArrowInput"> Pfeilspitze</label>
             </div>
             <div class="dsRow" id="drawSnapRow">
-              <label title="Neue Stützpunkte rasten an Stützpunkten bestehender Objekte ein. Alt-Taste gedrückt halten, um vorübergehend ohne Einrasten zu zeichnen."><input type="checkbox" id="drawSnapInput" checked> Einrasten an Objekten (Alt: aus)</label>
+              <label title="Neue Stützpunkte rasten an Stützpunkten bestehender Objekte ein. Alt-Taste gedrückt halten, um vorübergehend ohne Einrasten zu zeichnen."><input autocomplete="off" type="checkbox" id="drawSnapInput" checked> Einrasten an Objekten (Alt: aus)</label>
             </div>
             <div class="dsHint" id="drawHint">Zuerst links einen Layer anklicken (z.B. „Schlüsselgelände“), dann Werkzeug wählen · ESC bricht ab</div>
           </div>
@@ -15224,27 +15224,27 @@ input.kSuchFeld{ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http:
   </div>
   <div class="fpBody">
     <div class="dep-row"><label>Layout</label>
-      <select id="printLayout">
+      <select autocomplete="off" id="printLayout">
         <option value="a4-portrait">A4 Hochformat</option>
         <option value="a4-landscape" selected>A4 Querformat</option>
         <option value="a3-portrait">A3 Hochformat</option>
         <option value="a3-landscape">A3 Querformat</option>
       </select>
     </div>
-    <div class="dep-row"><label>Titel</label><input type="text" id="printTitle"></div>
+    <div class="dep-row"><label>Titel</label><input autocomplete="off" type="text" id="printTitle"></div>
     <div class="dep-row"><label>Massstab</label>
-      <span class="printScalePrefix">1:</span><input type="number" id="printScale" value="25000" min="500" step="500">
+      <span class="printScalePrefix">1:</span><input autocomplete="off" type="number" id="printScale" value="25000" min="500" step="500">
     </div>
     <div class="dep-row"><label>Koord.-System</label>
-      <select id="printCoordSystem">
+      <select autocomplete="off" id="printCoordSystem">
         <option value="lv95">LV95</option>
         <option value="wgs84">WGS84</option>
         <option value="mgrs">MGRS</option>
       </select>
     </div>
-    <label class="printCheckRow"><input type="checkbox" id="printGrid" checked> Koordinatengitter</label>
-    <label class="printCheckRow"><input type="checkbox" id="printNorthArrow" checked> Nordpfeil</label>
-    <label class="printCheckRow"><input type="checkbox" id="printScalebar" checked> Massstabsleiste</label>
+    <label class="printCheckRow"><input autocomplete="off" type="checkbox" id="printGrid" checked> Koordinatengitter</label>
+    <label class="printCheckRow"><input autocomplete="off" type="checkbox" id="printNorthArrow" checked> Nordpfeil</label>
+    <label class="printCheckRow"><input autocomplete="off" type="checkbox" id="printScalebar" checked> Massstabsleiste</label>
     <div class="printHint">Rahmen auf der Karte verschieben/skalieren, dann exportieren.</div>
     <button id="printExportBtn" class="modalPrimaryBtn printExportBtn">📄 Exportieren</button>
   </div>
@@ -97904,7 +97904,15 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
    ===================================================================== */
 (function(){
   if (window.__kT523) return;
-  const K = { KEY: 'munggiLauf', S: { schreiben: 0, gemeldet: 0 }, vor: null }; window.__kT523 = K;
+  const K = { KEY: 'munggiLauf', S: { schreiben: 0, gemeldet: 0 }, vor: null, spur: [], start: Date.now() }; window.__kT523 = K;
+  /* Spur: was zuletzt angetippt wurde (Kennung oder Beschriftung der Taste, höchstens 24 Zeichen; Karte/3D-Bild nur als Wort) */
+  K.nenne = function(el){
+    if (!el || !el.closest) return '';
+    const b = el.closest('button, [role="button"], .pbBtn, .phChip, summary, label, a, select, input');
+    if (b){ const tx = String(b.getAttribute('aria-label') || b.title || b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 24); return (b.id ? '#' + String(b.id).slice(0, 24) : '') + (tx && !b.id ? '«' + tx + '»' : '') || String(b.tagName).toLowerCase(); }
+    if (el.closest('#c3dContainer, #map3d')) return '3D-Bild'; if (el.closest('#map')) return 'Karte'; return '';
+  };
+  document.addEventListener('click', ev => { const n = K.nenne(ev.target); if (!n) return; K.spur.push([Date.now(), n]); if (K.spur.length > 8) K.spur.shift(); clearTimeout(K.spurT); K.spurT = setTimeout(() => K.schreibe(), 300); }, true);
   const lies = () => { let o = null; try { const r = localStorage.getItem(K.KEY); o = r ? JSON.parse(r) : null; } catch(e){ kCatch(e, '348.1') } return o; };
   const an = id => { const e = document.getElementById(id); return !!(e && e.checked); };
   K.stand = function(){
@@ -97912,7 +97920,12 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
     if (c3d && !K.c3dSeit) K.c3dSeit = Date.now(); if (!c3d) K.c3dSeit = 0;
     let routen = 0, punkte = 0, andere = 0;
     if (typeof workLayers !== 'undefined') Object.values(workLayers).forEach(wl => (wl.objects || []).forEach(o => { if (o.itemKind === 'route'){ routen++; punkte += (o.points || []).length; } else andere++; }));
-    return { b: window.__KOCOA_BUILD || '', t: Date.now(), vorn: document.visibilityState !== 'hidden', c3d, d3, seit: K.c3dSeit || 0, geb: c3d && an('c3dBldg'), veg: c3d && an('c3dVeg'), namen: c3d && an('c3dNames'),
+    const b = document.body.classList; let wz = '';
+    if (b.contains('kRouteModeOn')) wz = 'Route zeichnen'; else if (typeof currentDrawTool !== 'undefined' && currentDrawTool) wz = 'Werkzeug ' + String(currentDrawTool).slice(0, 20);
+    const fp = document.querySelectorAll('.floatingPanel[id^="fp_"]'), fenster = []; for (let i = 0; i < fp.length && fenster.length < 4; i++) if (fp[i].offsetWidth > 0) fenster.push(String(fp[i].id).slice(3, 23));
+    const blatt = document.querySelector('.phSheet.open, #leftPanel.open, #rightPanel.open');
+    return { b: window.__KOCOA_BUILD || '', t: Date.now(), vorn: document.visibilityState !== 'hidden', c3d, d3, seit: K.c3dSeit || 0,
+      mem: !c3d && typeof c3dViewer !== 'undefined' && !!c3dViewer, wz, fenster, blatt: blatt ? String(blatt.id).slice(0, 24) : '', spur: K.spur.slice(-6), start: K.start, geb: c3d && an('c3dBldg'), veg: c3d && an('c3dVeg'), namen: c3d && an('c3dNames'),
       ein: c3d && an('c3dObj'), routen, punkte, andere, aus: K.aus || 0, ausGrund: K.ausGrund || '',
       tel: document.body.classList.contains('phoneMode') ? (document.body.classList.contains('phLand') ? 'quer' : 'hoch') : '' };
   };
@@ -97924,13 +97937,18 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
     if (o.c3d) teile.push('3D+ offen' + (sek ? ' seit ' + sek + ' s' : '') + ' (Gebäude ' + (o.geb ? 'an' : 'aus') + ', Vegetation ' + (o.veg ? 'an' : 'aus') + ', Namen ' + (o.namen ? 'an' : 'aus') + ', Einzeichnungen ' + (o.ein ? 'an' : 'aus') + ')');
     if (o.routen != null) teile.push('Projekt: ' + o.routen + ' Route(n) mit ' + (o.punkte || 0) + ' Punkten, ' + (o.andere || 0) + ' weitere Objekte');
     if (o.aus) teile.push('Grafik ausgestiegen: ' + o.aus + '-mal (' + (o.ausGrund || '?') + ')');
-    if (o.d3) teile.push('3D offen'); if (!o.c3d && !o.d3) teile.push('nur Karte'); if (o.tel) teile.push('Telefon ' + o.tel);
+    if (o.d3) teile.push('3D offen'); if (!o.c3d && !o.d3) teile.push('nur Karte' + (o.mem ? ' (3D+ geschlossen, aber noch im Speicher)' : '')); if (o.tel) teile.push('Telefon ' + o.tel);
+    if (o.wz) teile.push(o.wz); if (o.blatt) teile.push('Blatt ' + o.blatt); if (o.fenster && o.fenster.length) teile.push('Fenster: ' + o.fenster.join(', '));
+    if (o.start) teile.push('lief ' + Math.max(0, Math.round((o.t - o.start) / 1000)) + ' s');
+    if (o.spur && o.spur.length) teile.push('zuletzt angetippt: ' + o.spur.map(x => x[1] + ' (' + Math.max(0, Math.round((o.t - x[0]) / 1000)) + ' s vorher)').join(' → '));
     return 'Der letzte Lauf endete unerwartet (Build ' + (o.b || '?') + ', ' + new Date(o.t).toLocaleString('de-CH') + '): ' + teile.join(' · ');
   };
   /* Start: alten Merker auswerten, dann den eigenen führen */
   K.vor = lies();
   K.pruefe = function(){
-    const o = K.vor; K.vor = null; if (!o || !o.vorn || !(o.c3d || o.d3)) return null;   /* im Hintergrund beendet oder nur die 2D-Karte offen: kein Vorfall */
+    /* T524 (Rafael 19.11.: «beim ersten Einzeichnen einer Route direkt abgestürzt, ohne 3D+»): JEDES unerwartete Ende im Vordergrund
+       wird gemeldet, nicht nur eines mit offener 3D-Karte – mit Werkzeug, Fenstern und den letzten Antippern */
+    const o = K.vor; K.vor = null; if (!o || !o.vorn) return null;   /* im Hintergrund beendet: kein Vorfall */
     K.S.gemeldet++; const tx = K.text(o); K.letzter = tx;
     try { window.dispatchEvent(new ErrorEvent('error', { message: tx })); } catch(e){ kCatch(e, '348.4') }
     return tx;
@@ -97941,6 +97959,39 @@ czm_material czm_getMaterial(czm_materialInput materialInput){
   document.addEventListener('visibilitychange', () => K.schreibe());
   window.addEventListener('pagehide', () => K.ende());
   window.addEventListener('beforeunload', () => K.ende());
+})();
+/* =====================================================================
+   T524 (Rafael 19.11., zweites Video) – 3D+ am Telefon nach dem Schliessen freigeben
+   «✕» hat die 3D+ Karte bisher nur ausgeblendet: Gelände, Luftbild und Gebäude blieben im Speicher, solange die App lief.
+   Am Schreibtisch ist das gewollt (sofort wieder da). Am Telefon fehlt dieser Speicher danach für alles andere. Darum wird er
+   dort zehn Sekunden nach dem Schliessen freigegeben (und sofort, wenn die App in den Hintergrund geht).
+   Anlass war Rafaels Absturz beim ersten Routenzeichnen (T523) – der Verdacht «3D+ noch im Speicher» hat sich aber NICHT bestätigt:
+   3D+ war vor jenem Absturz gar nicht offen. Die Freigabe bleibt als Vorsorge; die Ursache jenes Absturzes ist offen. Beim nächsten Öffnen baut sich 3D+ neu auf, Vegetation und Namen kommen wieder wie gewählt.
+   ===================================================================== */
+(function(){
+  if (window.__kT524) return;
+  const K = { S: { frei: 0, wieder: 0, grund: '' }, WARTE_MS: 10000, timer: null, merk: null }; window.__kT524 = K;
+  const tel = () => document.body.classList.contains('phoneMode');
+  const offen = () => { const mc = document.getElementById('mapContainer'); return !!(mc && mc.classList.contains('showc3d')); };
+  const an = id => { const e = document.getElementById(id); return !!(e && e.checked); };
+  K.freigeben = function(grund){
+    if (typeof c3dViewer === 'undefined' || !c3dViewer || offen() || c3dLoading || (typeof c3dRecovering !== 'undefined' && c3dRecovering)) return false;
+    K.merk = { veg: an('c3dVeg'), names: an('c3dNames') };
+    try { if (typeof c3dObjWatchStop === 'function') c3dObjWatchStop(); } catch(e){ kCatch(e, '349.1') }
+    try { c3dViewer.destroy(); } catch(e){ kCatch(e, '349.2') }
+    c3dViewer = null; c3dTiles = { bldg: null, veg: null, names: null }; c3dLoading = false;
+    K.S.frei++; K.S.grund = String(grund || ''); return true;
+  };
+  K.plane = function(){ clearTimeout(K.timer); if (!tel()) return; K.timer = setTimeout(() => { try { K.freigeben('geschlossen'); } catch(e){ kCatch(e, '349.3') } }, K.WARTE_MS); };
+  if (typeof window.close3DPlus === 'function'){ const _c = window.close3DPlus; kExt.wrap(window, 'close3DPlus', '349.h1', function(){ const r = _c.apply(this, arguments); try { K.plane(); } catch(e){ kCatch(e, '349.4') } return r; }); }
+  if (typeof window.open3DPlus === 'function'){ const _o = window.open3DPlus; kExt.wrap(window, 'open3DPlus', '349.h2', async function(){
+    clearTimeout(K.timer); const merk = (typeof c3dViewer === 'undefined' || !c3dViewer) ? K.merk : null;
+    const r = await _o.apply(this, arguments);
+    try { if (merk && c3dViewer && typeof c3dToggleTileset === 'function'){ K.merk = null; K.S.wieder++; if (merk.veg && an('c3dVeg')) c3dToggleTileset('veg', true); if (merk.names && an('c3dNames')) c3dToggleTileset('names', true); } } catch(e){ kCatch(e, '349.5') }
+    return r; }); }
+  document.addEventListener('visibilitychange', () => { try { if (document.visibilityState === 'hidden' && tel() && !offen()){ clearTimeout(K.timer); K.freigeben('Hintergrund'); } } catch(e){ kCatch(e, '349.6') } });
+  /* Auswahl der Basiskarte: steht nach einem Neuladen der Seite durch den Browser gelegentlich auf «nichts» – dann die erste nehmen */
+  setTimeout(() => { try { const s = document.getElementById('c3dBase'); if (s && s.selectedIndex < 0 && s.options.length) s.selectedIndex = 0; } catch(e){ kCatch(e, '349.7') } }, 0);
 })();
 </script>
 

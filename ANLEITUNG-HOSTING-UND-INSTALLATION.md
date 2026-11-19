@@ -626,3 +626,16 @@ Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `
 Nicht am echten Gerät geprüft: iPhone und Android-App; die Tastatur über einem Meldungsfenster im Querformat.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T522-2026-11-19`. Service-Worker-Cache `kocoa-v197-T522-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T523 (2026-11-19) – gelöschte Route kommt nicht mehr zurück, 3D+ mit kleinem Speicherbudget
+
+Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **Geleertes Projekt bleibt leer:** Wer das letzte Objekt löscht (z. B. die einzige Route), bekam es beim nächsten Start wieder – die App sichert ein leeres Projekt nie, also blieb die alte Sicherung die neueste. Neu merkt sich die App das Leeren innert Sekunden. Die älteren Stände bleiben in der Projektbibliothek unter «Automatische Sicherungen».
+- **3D+ am Telefon:** eigenes, kleines Speicherbudget für Gebäude, Vegetation und Namen. Anlass: Das iPhone lud die Seite kurz nach dem Öffnen von 3D+ neu; die Ursache ist nicht belegt.
+- **3D+ steigt nicht mehr endlos neu ein:** Fällt die Grafik des Geräts aus, startet 3D+ höchstens zweimal neu und bleibt dann mit einer Meldung angehalten. Die Meldungen der 3D+ Karte sind am Telefon wieder sichtbar (seit T519 ausgeblendet). Am iPhone lädt die 3D+-Bibliothek wieder wie bis T521.
+- **Unerwartetes Ende:** Endet die App mit offener 3D- oder 3D+ Karte unerwartet, steht das beim nächsten Start im Fehlerbericht (Build, Dauer, Gebäude/Vegetation/Namen). Der Bericht trägt am Telefon auch die Anzeige-Masse.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T523-2026-11-19`. Service-Worker-Cache `kocoa-v198-T523-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

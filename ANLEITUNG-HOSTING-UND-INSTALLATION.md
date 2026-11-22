@@ -652,3 +652,19 @@ Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `
 Nicht am echten Gerät geprüft: iPhone und Android-App.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T524-2026-11-19`. Service-Worker-Cache `kocoa-v199-T524-2026-11-19`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T532 (2026-11-22) – Auftragsrad am Telefon, Linien-Signaturen mit Kontur, Lawinenbulletin
+
+Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **Aufträge mit Signatur (Auftragsrad):** Die Leitung erteilt am Schreibtisch Aufträge über ein Rad an eine oder mehrere Formationen. Am Telefon kommen sie als Befehl in Kurzform mit Signatur an und werden mit «Gelesen» quittiert.
+- **Auftrag am Telefon erteilen:** Wer einen Verband führt (Gerät an die eigene Formation gebunden), findet im Blatt «Lage» den Block «Auftrag»: «Auftrag erteilen» → «An wen?» ankreuzen → Rad (Gruppe antippen, dann Auftrag) → Ziel auf der Karte antippen → «Senden». Erteilen kann er an Formationen, bei denen seine Formation als «übergeordneter Verband» eingetragen ist; ohne Eintrag erteilt nur die Leitung. Nichts wird ohne «Senden» gesendet.
+- **Aufheben:** Einen Auftrag aus dem Rad hebt auf, wer ihn erteilt hat, oder die Leitung.
+- **Abgeschlossene Befehle:** Aufgehobene und erledigte Befehle verschwinden von der Karte, aus der 3D-Karte und aus 3D+. «Erledigte auf der Karte» (Blatt «Lage») blendet sie am eigenen Gerät wieder ein. Skizzen der Befehle tragen keine Nummern mehr.
+- **Linien- und Flächensignaturen:** Kontur unter jedem Strich, kräftigerer Strich, Namensschild bei Linien; Wahl «Kontur» hell oder dunkel in den Karten-Optionen.
+- **Lawinenbulletin:** Lawinenprobleme mit gleicher Beschreibung stehen als ein Eintrag (z. B. «Neuschnee, Altschnee»), derselbe Text erscheint nicht mehr zweimal. Die gewählte Region ist mit einer dicken schwarzen Linie markiert.
+- **3D-Karte:** Eine Kamerafahrt, die vor dem Laden des Geländes beginnt, endet am Ziel. Eingepasste Bilder (z. B. Drohnenaufnahmen) liegen auch in der 3D-Karte und in 3D+.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere das Antippen des Ziels neben Wischen und Zoomen der Karte und die Tastatur über der Leiste «Senden».
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T532-2026-11-22`. Service-Worker-Cache `kocoa-v200-T532-2026-11-22`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

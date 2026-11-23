@@ -668,3 +668,18 @@ Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `
 Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere das Antippen des Ziels neben Wischen und Zoomen der Karte und die Tastatur über der Leiste «Senden».
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T532-2026-11-22`. Service-Worker-Cache `kocoa-v200-T532-2026-11-22`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T534 (2026-11-22) – Taste «Fertig» beim Einzeichnen, Einführung fürs Telefon, kleinere Namensschilder
+
+Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `v: 3`).
+
+- **«Fertig» und «Rückgängig»:** Beim Einzeichnen und Messen mit mehreren Punkten steht unten auf der Karte eine Leiste. «Fertig» schliesst ab und ist gesperrt, bis genug Punkte gesetzt sind (2, bei Flächen 3); der Pfeil daneben nimmt den letzten Punkt zurück. Gilt für Linie, Fläche, Distanz, Höhenprofil, Flächenmessung, freie Route, Signatur-Linie und -Fläche, SpotMap-Taufe und den Track im Tourenportal. Bei SpotMap-Strasse und -Gewässer gibt es nur «Fertig». Werkzeuge, die mit einem Tippen oder Ziehen enden (Punkt, Kreis, Rechteck), brauchen keine Leiste.
+- **Hinweise:** Am Telefon nennen die Hinweise «Fertig» und «tippen» statt Doppelklick, Enter und ESC.
+- **Einführung:** Am Telefon führt sie in neun Schritten durch Karte, Standort, Nur Karte und Sperre, Lage und Ebenen, Werkzeuge, Melden, Karten, Chat und Mehr. Jeder Schritt öffnet sein Blatt; am Ende steht wieder die Karte. Start unter «Mehr».
+- **KOCOA-Tasten (Vollansicht):** im Blatt «Ebenen» ausgeschrieben («Cover & Concealment», «Avenues of Approach») und auf mehrere Zeilen verteilt.
+- **Linien-Signaturen:** Das Namensschild ist kleiner (Schrift 13 statt 18 px) und verdeckt weniger Karte.
+- **3D+:** «3D-Einsicht» und die Navi-Ansicht schalten beim Öffnen von 3D+ nur noch die Gebäude ein. Die Vegetation bleibt im Menü der 3D+ Karte von Hand schaltbar.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere die Leiste «Fertig» über der Telefonleiste und ob 3D+ ohne Vegetation stabil bleibt.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T534-2026-11-22`. Service-Worker-Cache `kocoa-v201-T534-2026-11-22`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

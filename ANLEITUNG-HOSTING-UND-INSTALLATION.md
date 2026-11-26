@@ -683,3 +683,28 @@ Am Feldserver ändert sich nichts (`munggi-relay.js` unverändert, Begrüssung `
 Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere die Leiste «Fertig» über der Telefonleiste und ob 3D+ ohne Vegetation stabil bleibt.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T534-2026-11-22`. Service-Worker-Cache `kocoa-v201-T534-2026-11-22`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T559 (2026-11-26) – Relay-Funktionen, GeoTIFF und KMZ, Auftragsrad mit Flächen, Schnee-Vorschlag, Sitzung im Funkloch
+
+**Feldserver:** `munggi-relay.js` liegt bei und ist auf Stand **v 4** (Begrüssung `v: 4`; seit T536). Wer einen eigenen Feldserver betreibt, ersetzt die Datei dort. Vorhalten und Kartenpakete gibt es erst mit einem Server ab v 4.
+
+- **Standort teilen:** von sich aus **aus**. Im Blatt «Mehr» steht die Karte «Sitzung und Standort» mit Zustand der Verbindung, dem Schalter «Standort in der Sitzung teilen» und dem Sendetakt (sparsam, normal, dicht). Wer vorher nie umgestellt hat, teilt nach dem Update nicht mehr.
+- **Server im Internet:** Sitzung über einen eigenen Server (Feldserver v 4 mit `--internet`); der Server hält die letzte Position je Gerät und Nachrichten 24 h vor. Die Netzstufe «Offline» sperrt Sitzungen zu Servern im Internet.
+- **Kartenpakete vom Server:** während einer Sitzung mit einem Server ab v 4 unter Offline-Karte → Pakete & Speicher die Taste «Vom Server laden» (Anhalten, Fortsetzen, Verwerfen). Geladen wird nur auf Antippen; über Mobilfunk fragt die App vorher.
+- **Sperre:** Solange die Berührungssperre ein ist, bleibt die Anzeige wach (wenn das Gerät es gewährt). Die Taste mit dem Mond unter dem Schloss dunkelt nach 15 s ab.
+- **GeoTIFF:** Eine TIFF-Datei mit Lagebezug liegt im Fenster «Bild einpassen» ohne Passpunkte auf der Karte; in voller Auflösung lässt sie sich als «Eigene Karte» einbinden.
+- **Signaturen:** Linien- und Flächen-Signaturen stehen schon beim Setzen der Punkte in ihrer Form auf der Karte.
+- **Lawinenbulletin Ausland:** wird nicht mehr doppelt abgerufen.
+- **3D-Karte und 3D+:** zeigen nur, was auf der Karte eingeblendet ist. In 3D+ liegen Linien und Flächen wieder auf dem Gelände. Die geschlossene 3D-Karte ruht und bremst die Karte nicht mehr; die offene 3D-Karte steht nach einer Fahrt am Ort der Karte.
+- **Menü der 3D+ Karte:** «Gebäude», «Vegetation» und «Einzeichnungen» stehen in einer Flucht mit den übrigen Einträgen.
+- **Garmin Custom Maps (KMZ):** Eine KMZ-Datei mit Kartenbildern lässt sich als «Eigene Karte» einbinden (nichts wird aus dem Netz geladen).
+- **Auftragsrad:** fünfte Gruppe «Sicherung» mit Flächen-Aufträgen (Sichern, Bewachen, Isolieren – eine Fläche ab drei Punkten); die Taste «Auftrag» steht auch im eingeklappten Befehlsfeld; das Ziel lässt sich auch in der 3D-Karte und in 3D+ antippen.
+- **Schnee in 3D+:** Taste «Vorschlag aus Messstationen» rechnet die Schneegrenze aus den Stationen im Umkreis (MeteoSchweiz, SLF wo erreichbar); gesetzt wird sie erst mit «Übernehmen».
+- **Sitzung:** Ein Eintrag, der bei unterbrochener Verbindung geändert wurde, kommt nach dem Neuaufbau sicher bei den anderen an (vorher konnte die Änderung verloren gehen).
+- **Einführung:** um die neuen Funktionen ergänzt.
+
+Nur am Schreibtisch (nicht in der Mobil-Fassung sichtbar): 3D-Modelle und Punktwolken in 3D+ («3D-Modell»).
+
+Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere das Wachbleiben in der Sperre, das Laden grosser Kartenpakete vom Server, GeoTIFF und KMZ am Telefon, das Auftragsrad mit fünf Gruppen, der Schnee-Vorschlag mit echten Stationswerten und das Tempo von 3D-Karte und 3D+.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T559-2026-11-26`. Service-Worker-Cache `kocoa-v202-T559-2026-11-26`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

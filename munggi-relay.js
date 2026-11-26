@@ -31,6 +31,12 @@
      --welt <Ordner>       T436: Weltkarten (*.pmtiles) – liefert /welt/index.json und /welt/<datei> mit Bereichsanfragen
                            (Haupt- und Hilfsport); Standard: welt/ neben dem Skript
      --snapsec <s>         T432: Abstand der Schnappschuss-Anfragen an den Lage-Inhaber (Standard 120 s)
+     --internet            T536: Betrieb im Internet hinter einem Proxy mit Zertifikat (schliesst --no-tls ein):
+                           Einsatzcode nur noch im Kopf der Verbindung (nicht in der Adresse), Sperre nach
+                           Fehlversuchen je Adresse, nur verschlüsselte Sitzungen (Passphrase Pflicht), /welt/ und
+                           /karten/ nur mit Code, keine Auskunft über den Server (/status, Startseite, Hilfsport)
+     --karten <Ordner>     T537: Kartenpakete zum Abholen (/karten/index.json, /karten/<datei> mit Bereichsanfragen);
+                           Standard: karten/ neben dem Skript
    (Hinweis: In der Windows-EXE ist derselbe Server eingebaut –
    dieses Skript braucht es nur für Browser-/PWA-Hosts oder Tests.)
    T432: Räume – ein Host für mehrere Teams/Det. Je Raum eigener Einsatzcode, eigene Teilnehmerliste, eigenes
@@ -41,6 +47,10 @@
    Zertifikat (z. B. Caddy, siehe ANLEITUNG-RELAY-INTERNET.md) mit --no-tls
    starten; Pfade in der Adresse sind erlaubt (nur ?code= zählt); Klartext-Ping
    {"t":"ping"} wird dem Absender mit {"t":"pong"} beantwortet; TCP-Keepalive.
+   T536: Vorhalten – je Raum merkt sich der Server die letzte Position je Gerät und die Nachrichten der letzten 24 h
+   (in verschlüsselten Räumen nur die Hülle) und liefert sie einem Gerät, sobald es sich meldet. Begrüssung v: 4 mit
+   hold: 1; ältere App-Stände übergehen das. Der Einsatzcode kann im Kopf «Sec-WebSocket-Protocol» stehen
+   (munggi, c.<Code base64url>, l.<Leitungs-Code base64url>) – mit --internet nur noch dort.
    ============================================================ */
 'use strict';
 const net = require('net');
@@ -56,11 +66,11 @@ const opt = {};
 const pos = [];
 for (let i = 0; i < argv.length; i++){
   const a = argv[i];
-  if (a.startsWith('--')){ const k = a.slice(2); if (k === 'no-tls'){ opt.noTls = true; } else if (k === 'open'){ opt.open = true; } else { opt[k] = argv[++i]; } }
+  if (a.startsWith('--')){ const k = a.slice(2); if (k === 'no-tls'){ opt.noTls = true; } else if (k === 'open'){ opt.open = true; } else if (k === 'internet'){ opt.internet = true; opt.noTls = true; } else { opt[k] = argv[++i]; } }
   else pos.push(a);
 }
 const PORT = parseInt(pos[0], 10) || 8765;
-const CODE = (pos[1] || opt.code || 'MUNGGI').trim();
+const CODE = (pos[1] || opt.code || process.env.MUNGGI_CODE || 'MUNGGI').trim();   /* T536: auch aus der Umgebung (MUNGGI_CODE, MUNGGI_LEAD) – steht dann nicht in der Prozessliste */
 /* T322: ein unerwarteter Fehler darf den Feldserver nicht mehr beenden – protokollieren und weiterlaufen */
 process.on('uncaughtException', e => { try { console.error(new Date().toISOString(), '! Unerwarteter Fehler (Dienst läuft weiter):', e && e.stack || e); } catch (e2) {} });
 process.on('unhandledRejection', e => { try { console.error(new Date().toISOString(), '! Unbehandelte Zusage:', e && e.stack || e); } catch (e2) {} });
@@ -68,11 +78,20 @@ const HELPER_PORT = PORT + 1;
 const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
 const clients = new Set();
 const HERE = __dirname;
+const INTERNET = !!opt.internet;   /* T536 */
+/* T536: Sperre nach Fehlversuchen je Adresse (nur im Internet-Betrieb): 8 falsche Codes in 10 min → 15 min gesperrt */
+const FAIL_MAX = 8, FAIL_WIN = 10 * 60000, FAIL_LOCK = 15 * 60000; const fails = new Map();
+function failGet(ip){ const f = fails.get(ip); if (!f) return null; const now = Date.now(); if (f.until && now < f.until) return f; if (now - f.first > FAIL_WIN && !(f.until && now < f.until)){ fails.delete(ip); return null; } return f; }
+function failLocked(ip){ const f = failGet(ip); return !!(f && f.until && Date.now() < f.until); }
+function failAdd(ip){ if (!INTERNET) return; let f = failGet(ip); if (!f){ f = { n: 0, first: Date.now(), until: 0 }; fails.set(ip, f); } f.n++; if (f.n >= FAIL_MAX && !f.until){ f.until = Date.now() + FAIL_LOCK; console.log(new Date().toISOString(), '! Adresse nach ' + f.n + ' Fehlversuchen für 15 min gesperrt'); } if (fails.size > 5000){ const k = fails.keys().next().value; fails.delete(k); } }
+function clientIp(sock, head){ let ip = String(sock.remoteAddress || ''); if (INTERNET && /^(::ffff:)?127\.|^::1$/.test(ip)){ const m = /^x-forwarded-for:\s*(.+)$/im.exec(head || ''); if (m){ const l = m[1].split(',').map(x => x.trim()).filter(Boolean); if (l.length) ip = l[l.length - 1]; } } return ip.slice(0, 64); }
+function b64urlDec(t){ try { return Buffer.from(String(t).replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'); } catch (e){ return ''; } }
+function codeOk(code){ return !!code && (rooms.has(code) || (!!LEAD && code === LEAD)); }
 
 /* ---------- T432: Räume ---------- */
 const rooms = new Map();                       /* code -> { code, name, clients:Set, snap, snapAt, dirty, d2t, t2d, lastAsk, lastWrite } */
 let OPEN = !!opt.open;
-const LEAD = (opt.lead || '').trim();
+const LEAD = (opt.lead || process.env.MUNGGI_LEAD || '').trim();
 const SNAP_SEC = Math.max(2, parseInt(opt.snapsec, 10) || 120);
 const DATA_DIR = opt.data ? path.resolve(opt.data) : (opt['cert-dir'] ? path.join(opt['cert-dir'], 'sitzungen') : path.join(HERE, 'sitzungen'));
 const WELT_DIR = opt.welt ? path.resolve(opt.welt) : (opt['cert-dir'] ? path.join(opt['cert-dir'], 'welt') : path.join(HERE, 'welt'));   /* T436 */
@@ -82,16 +101,31 @@ function roomFile(code){ return path.join(DATA_DIR, safeName(code) + '.snap.json
 function roomGet(code, create, name){
   let r = rooms.get(code);
   if (!r && create){
-    r = { code, name: name || '', clients: new Set(), snap: null, snapAt: 0, dirty: false, d2t: false, t2d: true, lastAsk: Date.now(), lastWrite: 0 };   /* erste Gedächtnis-Anfrage erst nach SNAP_SEC */
-    try { if (fs.existsSync(roomFile(code))){ const j = JSON.parse(fs.readFileSync(roomFile(code), 'utf8')); if (j && typeof j.snap === 'string'){ r.snap = j.snap; r.snapAt = j.snapAt || 0; } if (j && j.name && !r.name) r.name = j.name; if (j && typeof j.d2t === 'boolean') r.d2t = j.d2t; if (j && typeof j.t2d === 'boolean') r.t2d = j.t2d; } } catch (e) {}
+    r = { code, name: name || '', clients: new Set(), snap: null, snapAt: 0, dirty: false, d2t: false, t2d: true, lastAsk: Date.now(), lastWrite: 0, pos: new Map(), msgs: [], holdDirty: false };   /* erste Gedächtnis-Anfrage erst nach SNAP_SEC */
+    try { if (fs.existsSync(roomFile(code))){ const j = JSON.parse(fs.readFileSync(roomFile(code), 'utf8')); if (j && typeof j.snap === 'string'){ r.snap = j.snap; r.snapAt = j.snapAt || 0; } if (j && j.name && !r.name) r.name = j.name; if (j && typeof j.d2t === 'boolean') r.d2t = j.d2t; if (j && typeof j.t2d === 'boolean') r.t2d = j.t2d;
+        if (j && Array.isArray(j.pos)) j.pos.slice(0, HOLD_POS_MAX).forEach(x => { if (x && typeof x.a === 'string' && typeof x.m === 'string') r.pos.set(x.a, { m: x.m, at: +x.at || 0 }); });
+        if (j && Array.isArray(j.msgs)) r.msgs = j.msgs.filter(x => x && typeof x.m === 'string').slice(-HOLD_MSG_MAX).map(x => ({ m: x.m, at: +x.at || 0 })); } } catch (e) {}
     rooms.set(code, r);
     console.log(new Date().toISOString(), '· Raum «' + code + '»' + (r.snap ? ' (Stand vom ' + new Date(r.snapAt).toLocaleString('de-CH') + ')' : ''));
   }
   return r || null;
 }
+/* T536: Vorhalten – letzte Position je Gerät (bis zur nächsten) und Nachrichten der letzten 24 h */
+const HOLD_POS_MAX = 500, HOLD_MSG_MAX = 200, HOLD_MSG_AGE = 24 * 3600 * 1000, HOLD_BYTES = 8192;
+function holdPrune(r){ const lim = Date.now() - HOLD_MSG_AGE; while (r.msgs.length && (r.msgs[0].at < lim || r.msgs.length > HOLD_MSG_MAX)) r.msgs.shift(); }
+function holdPos(r, actor, msg){ if (!actor || msg.length > HOLD_BYTES) return; if (!r.pos.has(actor) && r.pos.size >= HOLD_POS_MAX) return; r.pos.set(actor, { m: msg, at: Date.now() }); r.holdDirty = true; }
+function holdMsg(r, msg){ if (msg.length > HOLD_BYTES) return; r.msgs.push({ m: msg, at: Date.now() }); holdPrune(r); r.holdDirty = true; }
+/* aufbewahrte Nachricht für die Zustellung kennzeichnen: rs = vom Server, ra = Alter in ms (die Uhr des Empfängers spielt keine Rolle) */
+function holdMark(m, at){ const ra = Math.max(0, Date.now() - at); if (/^\{"e":1,/.test(m)) return '{"e":1,"rs":1,"ra":' + ra + ',' + m.slice(7); try { const o = JSON.parse(m); o.rs = 1; o.ra = ra; return JSON.stringify(o); } catch (e){ return null; } }
+function holdServe(r, sock){
+  holdPrune(r); let n = 0;
+  for (const [a, x] of r.pos){ if (a === sock.actor) continue; const out = holdMark(x.m, x.at); if (out){ sendTo(sock, out); n++; } }
+  for (const x of r.msgs){ const out = holdMark(x.m, x.at); if (out){ sendTo(sock, out); n++; } }
+  return n;
+}
 function roomPersist(r, force){
-  const now = Date.now(); if (!force && now - r.lastWrite < 30000) return; r.lastWrite = now;
-  try { fs.mkdirSync(DATA_DIR, { recursive: true }); fs.writeFileSync(roomFile(r.code), JSON.stringify({ code: r.code, name: r.name, snapAt: r.snapAt, d2t: r.d2t, t2d: r.t2d, snap: r.snap })); } catch (e){ console.log(new Date().toISOString(), '! Raum-Datei nicht schreibbar: ' + (e.message || e)); }
+  const now = Date.now(); if (!force && now - r.lastWrite < 30000) return; r.lastWrite = now; r.holdDirty = false; holdPrune(r);
+  try { fs.mkdirSync(DATA_DIR, { recursive: true }); fs.writeFileSync(roomFile(r.code), JSON.stringify({ code: r.code, name: r.name, snapAt: r.snapAt, d2t: r.d2t, t2d: r.t2d, snap: r.snap, pos: Array.from(r.pos, ([a, x]) => ({ a, m: x.m, at: x.at })), msgs: r.msgs })); } catch (e){ console.log(new Date().toISOString(), '! Raum-Datei nicht schreibbar: ' + (e.message || e)); }
 }
 function roomInfo(r){ return { code: r.code, name: r.name, n: r.clients.size, snapAt: r.snapAt, hasSnap: !!r.snap, d2t: r.d2t, t2d: r.t2d }; }
 function roomsMsg(){ return JSON.stringify({ t: 'relay_rooms', open: OPEN, lead: !!LEAD, snapSec: SNAP_SEC, rooms: Array.from(rooms.values()).map(roomInfo) }); }
@@ -108,7 +142,7 @@ function snapServe(r, toActor){
   } catch (e){ return null; }
 }
 function roomClose(r){ for (const c of r.clients){ try { c.end(Buffer.from([0x88, 0])); } catch (e) {} try { c.destroy(); } catch (e) {} } rooms.delete(r.code); try { fs.unlinkSync(roomFile(r.code)); } catch (e) {} console.log(new Date().toISOString(), '· Raum «' + r.code + '» geschlossen'); }
-function roomClear(r){ r.snap = null; r.snapAt = 0; r.dirty = false; try { fs.unlinkSync(roomFile(r.code)); } catch (e) {} }
+function roomClear(r){ r.snap = null; r.snapAt = 0; r.dirty = false; r.pos.clear(); r.msgs = []; r.holdDirty = false; try { fs.unlinkSync(roomFile(r.code)); } catch (e) {} }
 /* Leitung: Räume verwalten */
 function relayCtl(sock, m){
   if (!sock.lead){ sendText(sock, JSON.stringify({ t: 'relay_err', msg: 'Keine Leitungsrechte' })); return; }
@@ -126,12 +160,13 @@ function snapAsk(r){ r.lastAsk = Date.now(); const ask = JSON.stringify({ t: 'sn
 setInterval(() => {
   const now = Date.now();
   for (const r of rooms.values()){
+    if (r.holdDirty && now - r.lastWrite >= 30000) roomPersist(r, false);   /* T536 */
     if (!r.clients.size || !r.dirty || now - r.lastAsk < SNAP_SEC * 1000) continue;
     snapAsk(r);
   }
 }, 1000);
-process.on('SIGINT', () => { for (const r of rooms.values()) if (r.snap) roomPersist(r, true); process.exit(0); });
-process.on('SIGTERM', () => { for (const r of rooms.values()) if (r.snap) roomPersist(r, true); process.exit(0); });
+process.on('SIGINT', () => { for (const r of rooms.values()) if (r.snap || r.pos.size || r.msgs.length) roomPersist(r, true); process.exit(0); });
+process.on('SIGTERM', () => { for (const r of rooms.values()) if (r.snap || r.pos.size || r.msgs.length) roomPersist(r, true); process.exit(0); });
 (function roomsInit(){
   const list = String(opt.rooms || '').split(',').map(x => x.trim()).filter(Boolean);
   roomGet(CODE, true); list.forEach(c => roomGet(c, true));
@@ -200,7 +235,7 @@ function httpResponse(status, ctype, body, extra){
   return Buffer.concat([Buffer.from('HTTP/1.1 ' + status + '\r\nContent-Type: ' + ctype + '\r\nContent-Length: ' + b.length + '\r\nConnection: close\r\nCache-Control: no-cache\r\n' + (extra || '') + '\r\n'), b]);
 }
 /* ---------- T436: Weltkarten (PMTiles) mit Bereichsanfragen ---------- */
-const CORS = 'Access-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: Range, If-Match, If-None-Match\r\nAccess-Control-Expose-Headers: Content-Range, Content-Length, Accept-Ranges, ETag\r\n';
+const CORS = 'Access-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: Range, If-Match, If-None-Match, X-Munggi-Code\r\nAccess-Control-Expose-Headers: Content-Range, Content-Length, Accept-Ranges, ETag\r\n';
 function pmHeader(fd){
   /* PMTiles-Kopf (127 Byte): Kacheltyp, Zoom, Umgrenzung */
   try {
@@ -239,8 +274,33 @@ function weltServe(sock, method, p, head){
   if (method === 'HEAD'){ sock.end(); return; }
   const rs = fs.createReadStream(f, { start, end }); rs.on('error', () => { try { sock.destroy(); } catch (e){} }); rs.pipe(sock);
 }
+/* T537: Kartenpakete zum Abholen – Liste und Dateien mit Bereichsanfragen (Fortsetzen nach Unterbruch) */
+const KARTEN_DIR = opt.karten ? path.resolve(opt.karten) : (opt['cert-dir'] ? path.join(opt['cert-dir'], 'karten') : path.join(HERE, 'karten'));
+function dateiServe(sock, method, p, head, dir, prefix, erlaubt){
+  if (method === 'OPTIONS'){ sock.end(Buffer.from('HTTP/1.1 204 No Content\r\n' + CORS + 'Access-Control-Allow-Methods: GET, HEAD, OPTIONS\r\nAccess-Control-Max-Age: 86400\r\nContent-Length: 0\r\nConnection: close\r\n\r\n')); return; }
+  const base = prefix.slice(0, -1);
+  if (p === base || p === prefix || p === prefix + 'index.json'){
+    const out = []; try { for (const name of fs.readdirSync(dir)){ if (!erlaubt.test(name)) continue; const st = fs.statSync(path.join(dir, name)); if (st.isFile()) out.push({ file: name, name: name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' '), size: st.size, mtime: st.mtimeMs }); } } catch (e){}
+    sock.end(httpResponse('200 OK', 'application/json', JSON.stringify({ karten: true, files: out }), CORS)); return;
+  }
+  let name = ''; try { name = decodeURIComponent(p.slice(prefix.length)); } catch (e){}
+  const f = path.join(dir, name);
+  if (!name || name.includes('..') || name.includes('/') || name.includes('\\') || !erlaubt.test(name) || !f.startsWith(dir) || !fs.existsSync(f) || !fs.statSync(f).isFile()){ sock.end(httpResponse('404 Not Found', 'text/plain; charset=utf-8', 'Nicht gefunden', CORS)); return; }
+  const st = fs.statSync(f); const size = st.size; const etag = '"' + size.toString(16) + '-' + Math.floor(st.mtimeMs).toString(16) + '"';
+  const rm = /^range:\s*bytes=(\d*)-(\d*)/im.exec(head); let start = 0, end = size - 1, status = '200 OK';
+  if (rm && (rm[1] !== '' || rm[2] !== '')){
+    if (rm[1] === ''){ start = Math.max(0, size - parseInt(rm[2], 10)); } else { start = parseInt(rm[1], 10); if (rm[2] !== '') end = Math.min(size - 1, parseInt(rm[2], 10)); }
+    if (isNaN(start) || start > end || start >= size){ sock.end(Buffer.from('HTTP/1.1 416 Range Not Satisfiable\r\n' + CORS + 'Content-Range: bytes */' + size + '\r\nContent-Length: 0\r\nConnection: close\r\n\r\n')); return; }
+    status = '206 Partial Content';
+  }
+  const len = end - start + 1;
+  sock.write('HTTP/1.1 ' + status + '\r\nContent-Type: application/octet-stream\r\nContent-Length: ' + len + '\r\nAccept-Ranges: bytes\r\nETag: ' + etag + '\r\nCache-Control: no-store\r\nConnection: close\r\n' + CORS + (status[0] === '2' && status[2] === '6' ? 'Content-Range: bytes ' + start + '-' + end + '/' + size + '\r\n' : '') + '\r\n');
+  if (method === 'HEAD'){ sock.end(); return; }
+  const rs = fs.createReadStream(f, { start, end }); rs.on('error', () => { try { sock.destroy(); } catch (e){} }); rs.pipe(sock);
+}
 function staticResponse(url, helper){
   const p = url.split('?')[0];
+  if (INTERNET) return httpResponse('404 Not Found', 'text/plain; charset=utf-8', 'Not found');   /* T536: keine Auskunft über den Server */
   if (p === '/munggi-feldserver.cer' || p === '/munggi-feldserver.crt' || p === '/munggi-feldserver.der')
     return CERT_DER ? httpResponse('200 OK', 'application/x-x509-ca-cert', CERT_DER, '')  /* ohne Content-Disposition: iOS zeigt direkt «Profil laden» */ : httpResponse('404 Not Found', 'text/plain; charset=utf-8', 'Kein Zertifikat (Server läuft ohne TLS)');
   if (p === '/munggi-feldserver.pem') return CERT ? httpResponse('200 OK', 'application/x-pem-file', CERT.cert, 'Content-Disposition: attachment; filename="munggi-feldserver.pem"\r\n') : httpResponse('404 Not Found', 'text/plain', 'kein Zertifikat');
@@ -284,7 +344,7 @@ const typeRe = /"t"\s*:\s*"([a-z_]{1,16})"/;
 const encRe = /^\{"e"\s*:\s*1\b/, kindRe = /"k"\s*:\s*"([a-z_]{1,10})"/, trRe = /"tr"\s*:\s*(\d+)/, sameRe = /"same"\s*:\s*1\b/;
 function route(from, msg){
   const head = msg.length > 400 ? msg.slice(0, 400) : msg;
-  if (!from.actor){ const am = actorRe.exec(head); if (am) from.actor = am[1]; }
+  let neu = false; if (!from.actor){ const am = actorRe.exec(head); if (am){ from.actor = am[1]; neu = true; } }
   const r = from.room; const tyM = typeRe.exec(head); let ty = tyM ? tyM[1] : ''; let enc = false;
   if (!ty && encRe.test(head)){ enc = true; const km = kindRe.exec(head); ty = km ? (km[1] === 'p' ? 'peer' : km[1]) : 'enc'; }
   /* T432: Raum-Gedächtnis und Leitung */
@@ -302,7 +362,10 @@ function route(from, msg){
       /* leerer Raum: gespeicherten Stand liefern; sonst erst, wenn der Beitretende dreimal vergeblich gefragt hat (tries ≥ 3) */
       const trM = (enc ? trRe : /"tries"\s*:\s*(\d+)/).exec(head); const tries = trM ? parseInt(trM[1], 10) : 0;
       if (r.snap && (r.clients.size <= 1 || tries >= 3)){ const out = snapServe(r, from.actor || ''); if (out){ sendTo(from, out); if (r.clients.size <= 1) return; } }
-    } else if (ty && !/^(hello|peer|bye|pong|ping)$/.test(ty)) r.dirty = true;
+    } else if (ty === 'pos'){ holdPos(r, from.actor, msg); }                                   /* T536: letzte Position je Gerät */
+    else if (ty === 'm' || (ty === 'chat' && !toRe.test(head))){ holdMsg(r, msg); r.dirty = true; }   /* T536: Nachrichten an alle, 24 h */
+    else if (ty && !/^(hello|peer|bye|pong|ping)$/.test(ty)) r.dirty = true;
+    if (neu) holdServe(r, from);   /* T536: das Gerät hat sich gemeldet → Vorgehaltenes zustellen (vor der Weitergabe seiner eigenen Nachricht an andere) */
   }
   const tm = toRe.exec(head);
   if (tm){
@@ -336,28 +399,43 @@ function handleStream(sock, helper){
       const isWs = /^upgrade:\s*websocket/im.test(head);
       if (!isWs){
         const p0 = url.split('?')[0];
-        if (p0 === '/welt' || p0.startsWith('/welt/')){ clearTimeout(upgradeTimer); weltServe(sock, method, p0, head); return; }   /* T436 */
+        if (p0 === '/welt' || p0.startsWith('/welt/') || p0 === '/karten' || p0.startsWith('/karten/')){   /* T436 · T537 */
+          clearTimeout(upgradeTimer);
+          if (INTERNET && method !== 'OPTIONS'){   /* T536: nur mit Einsatzcode (Kopf «X-Munggi-Code», base64url) */
+            const ip = clientIp(sock, head); const hm = /^x-munggi-code:\s*(\S+)/im.exec(head);
+            if (failLocked(ip)){ sock.end(httpResponse('429 Too Many Requests', 'text/plain; charset=utf-8', 'Gesperrt', CORS)); return; }
+            if (!hm || !codeOk(b64urlDec(hm[1]))){ failAdd(ip); sock.end(httpResponse('403 Forbidden', 'text/plain; charset=utf-8', 'Code fehlt', CORS)); return; }
+          }
+          if (p0 === '/karten' || p0.startsWith('/karten/')) dateiServe(sock, method, p0, head, KARTEN_DIR, '/karten/', /\.(kocoamap|pmtiles|mbtiles|tiff?|kmz)$/i); else weltServe(sock, method, p0, head);
+          return;
+        }
         if (method !== 'GET' && method !== 'HEAD'){ sock.end(httpResponse('405 Method Not Allowed', 'text/plain', 'nur GET')); return; }
         sock.end(staticResponse(url, helper)); return;
       }
       if (helper){ sock.end(httpResponse('403 Forbidden', 'text/plain', 'Sitzung nur auf dem Hauptport')); return; }
       const keyM = /sec-websocket-key:\s*(.+)/i.exec(head);
       const codeM = /[?&]code=([^&\s]*)/.exec(url);
+      /* T536: Einsatzcode im Kopf der Verbindung – «Sec-WebSocket-Protocol: munggi, c.<Code>, l.<Leitungs-Code>» (base64url) */
+      const ip = clientIp(sock, head); const protM = /^sec-websocket-protocol:\s*(.+)$/im.exec(head); const prot = protM ? protM[1].split(',').map(x => x.trim()) : [];
+      const subOk = prot.includes('munggi'); const subC = prot.find(x => x.startsWith('c.')), subL = prot.find(x => x.startsWith('l.'));
+      if (INTERNET && failLocked(ip)){ sock.end('HTTP/1.1 429 Too Many Requests\r\nConnection: close\r\n\r\nGesperrt'); return; }
+      if (INTERNET && keyM && (codeM || !subOk || !subC)){ failAdd(ip); sock.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\nCode nur im Kopf der Verbindung'); return; }
       let code = '';
       /* T322 (Audit Befund 3): fehlerhafte Kodierung (z. B. «%») warf eine Ausnahme und beendete den ganzen Prozess */
-      try { code = codeM ? decodeURIComponent(codeM[1]) : ''; } catch (e){ sock.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\nUngültiger Code'); return; }
+      try { code = (subOk && subC) ? b64urlDec(subC.slice(2)) : (codeM ? decodeURIComponent(codeM[1]) : ''); } catch (e){ sock.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\nUngültiger Code'); return; }
       const room = keyM && code ? (rooms.get(code) || (OPEN ? roomGet(code, true) : null)) : null;   /* T432: Raum = Einsatzcode */
       if (!keyM || !room){
+        if (keyM) failAdd(ip);
         sock.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n' + (keyM ? (rooms.size > 1 || OPEN ? 'Raum nicht freigegeben' : 'Falscher Einsatzcode') : 'Kein WebSocket'));
         return;
       }
-      let lead = ''; try { const lm = /[?&]lead=([^&\s]*)/.exec(url); lead = lm ? decodeURIComponent(lm[1]) : ''; } catch (e) {}
-      sock.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ' + wsAccept(keyM[1].trim()) + '\r\n\r\n');
+      let lead = ''; try { const lm = /[?&]lead=([^&\s]*)/.exec(url); lead = (subOk && subL) ? b64urlDec(subL.slice(2)) : (lm && !INTERNET ? decodeURIComponent(lm[1]) : ''); } catch (e) {}
+      sock.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ' + wsAccept(keyM[1].trim()) + '\r\n' + (subOk ? 'Sec-WebSocket-Protocol: munggi\r\n' : '') + '\r\n');
       upgraded = true; clearTimeout(upgradeTimer);
       try { sock.setKeepAlive(true, 30000); } catch (e) {}   /* T310: tote Mobilfunk-Verbindungen erkennen */
       clients.add(sock); sock.room = room; room.clients.add(sock); sock.lead = !!(LEAD && lead === LEAD);
       console.log(new Date().toISOString(), '+ Teilnehmer verbunden' + (sock.encrypted ? ' (wss)' : ' (ws)') + ' · Raum «' + room.code + '» (' + room.clients.size + ' im Raum, ' + clients.size + ' gesamt)' + (sock.lead ? ' · Leitung' : ''));
-      sendText(sock, JSON.stringify({ t: 'relay', v: 3, room: room.code, name: room.name, n: room.clients.size, hasSnap: !!room.snap, snapAt: room.snapAt, allow: { d2t: room.d2t, t2d: room.t2d }, lead: sock.lead, open: OPEN, rooms: rooms.size }));
+      sendText(sock, JSON.stringify({ t: 'relay', v: 4, hold: 1, enc: INTERNET ? 1 : 0, room: room.code, name: room.name, n: room.clients.size, hasSnap: !!room.snap, snapAt: room.snapAt, allow: { d2t: room.d2t, t2d: room.t2d }, lead: sock.lead, open: OPEN, rooms: rooms.size }));
       if (sock.lead) sendText(sock, roomsMsg());
     }
     for (;;){
@@ -389,6 +467,11 @@ function handleStream(sock, helper){
           /* T322: Rate je Verbindung */
           const nowS = Date.now() / 1000 | 0; if (sock.rateSec !== nowS){ sock.rateSec = nowS; sock.rateN = 0; }
           if (++sock.rateN > MAX_RATE){ if (sock.rateN === MAX_RATE + 1) console.log(new Date().toISOString(), '! Zu viele Nachrichten – gedrosselt'); continue; }
+          /* T536: im Internet-Betrieb nur verschlüsselte Hüllen (Passphrase Pflicht); die Raumverwaltung der Leitung bleibt Klartext */
+          if (INTERNET && !encRe.test(msg.length > 12 ? msg.slice(0, 12) : msg) && !(sock.lead && /^\{\s*"t"\s*:\s*"relay_ctl"/.test(msg))){
+            if (!sock.klarGemeldet){ sock.klarGemeldet = true; sendText(sock, JSON.stringify({ t: 'relay_err', code: 'enc', msg: 'Dieser Server nimmt nur verschlüsselte Sitzungen an – Passphrase setzen' })); }
+            continue;
+          }
           route(sock, msg);
         }
       }
@@ -416,13 +499,16 @@ const server = net.createServer(sock => {
 });
 const helperServer = net.createServer(sock => { sock.on('error', () => {}); handleStream(sock, true); });
 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, INTERNET ? '127.0.0.1' : '0.0.0.0', () => {   /* T536: im Internet-Betrieb nur für den Proxy auf demselben Rechner */
   console.log('==============================================');
   console.log(' Munggi Feldserver läuft');
   console.log(' Port:        ' + PORT + (CERT ? '  (ws:// und wss:// – Zertifikat: ' + CERT.from + ')' : '  (nur ws://, ohne TLS)'));
   console.log(' Einsatzcode: ' + CODE + (CODE === 'MUNGGI' ? '   ⚠ Standardcode – für Internet-Relays unbedingt eigenen Code setzen (2. Argument oder --code)' : ''));
   if (rooms.size > 1 || OPEN) console.log(' Räume:       ' + Array.from(rooms.keys()).join(', ') + (OPEN ? '  (+ neue Codes eröffnen Räume)' : '') + (LEAD ? '  · Leitungs-Code gesetzt' : '  · kein Leitungs-Code (--lead)'));
-  console.log(' Gedächtnis:  ' + DATA_DIR + '  (Schnappschuss alle ' + SNAP_SEC + ' s)');
+  console.log(' Gedächtnis:  ' + DATA_DIR + '  (Schnappschuss alle ' + SNAP_SEC + ' s; letzte Position je Gerät, Nachrichten 24 h)');
+  if (INTERNET && CODE === 'MUNGGI'){ console.log(' ABBRUCH: Internet-Betrieb mit dem Standardcode ist nicht erlaubt – eigenen Einsatzcode setzen (2. Argument, --code oder MUNGGI_CODE).'); process.exit(2); }
+  if (INTERNET) console.log(' Internet:    Code nur im Kopf der Verbindung · Sperre nach ' + FAIL_MAX + ' Fehlversuchen · nur verschlüsselte Sitzungen · /welt/ und /karten/ nur mit Code');
+  try { console.log(' Kartenpakete: ' + KARTEN_DIR + '  (/karten/index.json)'); } catch (e){}
   try { const n = weltIndex().length; console.log(' Weltkarten:  ' + WELT_DIR + '  (' + n + ' Datei' + (n === 1 ? '' : 'en') + ' · /welt/index.json)'); } catch (e){}
   console.log(' Teilnehmer verbinden sich mit  ' + mainIp() + ':' + PORT);
   if (CERT) console.log(' Handys: Zertifikat + Anleitung unter  http://' + mainIp() + ':' + HELPER_PORT + '/');
@@ -431,4 +517,4 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log('==============================================');
 });
 helperServer.on('error', e => console.log(' Hilfsport ' + HELPER_PORT + ' nicht verfügbar (' + e.code + ') – Zertifikat dann über https://' + mainIp() + ':' + PORT + '/munggi-feldserver.cer'));
-helperServer.listen(HELPER_PORT, '0.0.0.0');
+if (!INTERNET) helperServer.listen(HELPER_PORT, '0.0.0.0');   /* T536: im Internet-Betrieb kein Hilfsport */

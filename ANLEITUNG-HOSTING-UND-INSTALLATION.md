@@ -708,3 +708,14 @@ Nur am Schreibtisch (nicht in der Mobil-Fassung sichtbar): 3D-Modelle und Punktw
 Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere das Wachbleiben in der Sperre, das Laden grosser Kartenpakete vom Server, GeoTIFF und KMZ am Telefon, das Auftragsrad mit fünf Gruppen, der Schnee-Vorschlag mit echten Stationswerten und das Tempo von 3D-Karte und 3D+.
 
 **Prüfen:** Mehr → Diagnose, Zeile *Build* = `T559-2026-11-26`. Service-Worker-Cache `kocoa-v202-T559-2026-11-26`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.
+
+## Stand T560 (2026-11-26) – KOCOA-Tasten in einer Zeile, Bericht mit Hinweisen, 3D-Modell am Telefon
+
+- **KOCOA-Tasten (Vollansicht, Blatt «Ebenen»):** Die sieben Tasten stehen in einer Zeile und lassen sich seitlich wischen; die gewählte Taste rückt ins Bild. Die Liste der Ebenen darunter hat deutlich mehr Platz.
+- **Meteo:** Im Blatt «Lokalprognose» (Meteo-Pin antippen) steht die Karte «Bericht mit Hinweisen». Die Taste «Hinweise laden» holt den Bericht für drei Tage mit Hinweisen wie am Schreibtisch (Whiteout, Kälte, Neuschnee, Gewitter). Geholt wird erst auf Antippen, über Open-Meteo – also nur in der Netzstufe «Übung».
+- **3D+ › Mehr › «3D-Modell»:** auch am Telefon – eine Datei (GLB oder Zip mit 3D Tiles), keine Ordner-Wahl. Der Speicher am Telefon ist knapp: kleine Modelle laden; ab 40 MB fragt die App vorher.
+- **Fehlerbericht:** Der Browser-Hinweis «ResizeObserver loop …» wird nicht mehr als Fehler geführt.
+
+Nicht am echten Gerät geprüft: iPhone und Android-App – insbesondere, ob der Datei-Wähler GLB- und Zip-Dateien anbietet, wie grosse Modelle ein Telefon trägt, und der Bericht mit dem echten Dienst.
+
+**Prüfen:** Mehr → Diagnose, Zeile *Build* = `T560-2026-11-26`. Service-Worker-Cache `kocoa-v203-T560-2026-11-26`; nach dem Hochladen neu laden und «Neue Version – jetzt neu laden» bestätigen.

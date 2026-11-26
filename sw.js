@@ -18,7 +18,7 @@
    (z. B. kocoa-v2), damit die alte Hülle sicher ersetzt wird.
    ============================================================ */
 
-const CACHE = 'kocoa-v202-T559-2026-11-26';
+const CACHE = 'kocoa-v203-T560-2026-11-26';
 
 const APP_SHELL = [
   './',
